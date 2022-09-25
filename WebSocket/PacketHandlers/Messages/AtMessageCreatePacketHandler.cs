@@ -10,7 +10,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages
 {
     public class AtMessageCreatePacketHandler : IPacketHandler
     {
-        public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+        public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
         {
             Message? msg = packet.Data?.ToObject<Message>();
             if (msg == null)
@@ -18,7 +18,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages
                 return;
             }
 
-            listener.EventManager.OnCreateAtMessage?.Invoke(listener, new MessageCreateEventArgs(packet, msg));
+            client.EventManager.OnCreateAtMessage?.Invoke(client, new MessageCreateEventArgs(packet, msg));
 
         }
         public OperationCode Code => OperationCode.Dispatch;

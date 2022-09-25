@@ -8,7 +8,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages;
 public class MessageDeletePackageHandler : IPacketHandler
 {
 
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         MessageDelete? msgDelete = packet.Data?.ToObject<MessageDelete>();
         if (msgDelete == null)
@@ -17,7 +17,7 @@ public class MessageDeletePackageHandler : IPacketHandler
         }
 
        
-        listener.EventManager.GuildMessageEvents.OnMessageDelete?.Invoke(listener, new MessageDeleteEventArgs(packet, msgDelete));
+        client.EventManager.GuildMessageEvents.OnMessageDelete?.Invoke(client, new MessageDeleteEventArgs(packet, msgDelete));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "MESSAGE_DELETE";

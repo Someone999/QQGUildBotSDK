@@ -7,7 +7,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.Members;
 
 public class GuildRemovedMemberInfoPacketHandler : IPacketHandler
 {
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         WebSocketMember? member = packet.Data?.ToObject<WebSocketMember>();
         if (member == null)
@@ -15,7 +15,7 @@ public class GuildRemovedMemberInfoPacketHandler : IPacketHandler
             return;
         }
         
-        listener.EventManager.GuildMemberEvents.OnMemberRemove?.Invoke(listener, new GuildMemberEventArgs(packet, member));
+        client.EventManager.GuildMemberEvents.OnMemberRemove?.Invoke(client, new GuildMemberEventArgs(packet, member));
     }
 
     public OperationCode Code => OperationCode.Dispatch;

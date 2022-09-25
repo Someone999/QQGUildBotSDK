@@ -12,7 +12,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.MessageReactions
 {
     public class AddMessageReactionPacketHandler : IPacketHandler
     {
-        public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+        public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
         {
             MessageReaction? messageReaction = packet.Data?.ToObject<MessageReaction>();
             if (messageReaction == null)
@@ -20,10 +20,10 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.MessageReactions
                 return;
             }
 
-            listener.EventManager
+            client.EventManager
                 .GuildMessageReactionEvents
                 .OnCreateMessageReaction?
-                .Invoke(listener, new MessageReactionEventArgs(packet, messageReaction));
+                .Invoke(client, new MessageReactionEventArgs(packet, messageReaction));
         }
 
         public OperationCode Code => OperationCode.Dispatch;

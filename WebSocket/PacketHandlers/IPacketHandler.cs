@@ -6,7 +6,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers;
 
 public interface IPacketHandler
 {
-    void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet);
+    void Handle(QqGuildWebSocketClient client, ServerPacketBase packet);
     OperationCode Code { get; }
     string? SubEventType { get; }
 }

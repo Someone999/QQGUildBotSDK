@@ -8,7 +8,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.Channel;
 public class CreateChannelPacketHandler : IPacketHandler
 {
 
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         WebSocketChannel? channel = packet.Data?.ToObject<WebSocketChannel>();
         if (channel == null)
@@ -16,7 +16,7 @@ public class CreateChannelPacketHandler : IPacketHandler
             return;
         }
 
-        listener.EventManager.GuildEvents.OnChannelCreate?.Invoke(listener, new ChannelEventArgs(channel, packet));
+        client.EventManager.GuildEvents.OnChannelCreate?.Invoke(client, new ChannelEventArgs(channel, packet));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "CHANNEL_CREATE";

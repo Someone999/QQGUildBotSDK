@@ -7,7 +7,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.MessageAudits;
 
 public class MessageAuditRejectedPacketHandler : IPacketHandler
 {
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         MessageAudited? msg = packet.Data?.ToObject<MessageAudited>();
         if (msg == null)
@@ -15,7 +15,7 @@ public class MessageAuditRejectedPacketHandler : IPacketHandler
             return;
         }
         
-        listener.EventManager.MessageAuditEvents.OnMessageAuditRejected?.Invoke(listener, new MessageAuditEventArgs(packet, msg));
+        client.EventManager.MessageAuditEvents.OnMessageAuditRejected?.Invoke(client, new MessageAuditEventArgs(packet, msg));
     }
 
     public OperationCode Code => OperationCode.Dispatch;

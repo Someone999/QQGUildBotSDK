@@ -8,7 +8,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Server;
 public class ReconnectPacketHandler : IPacketHandler
 {
 
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         var lastReadyPacket = PacketManager.LastReadyPacket;
         if (lastReadyPacket == null)
@@ -21,11 +21,11 @@ public class ReconnectPacketHandler : IPacketHandler
             Data = new ResumePacketData
             {
                 Sequence = packet.Sequence ?? 0,
-                Token = listener.Identifier.BotAuthToken,
+                Token = client.Identifier.BotAuthToken,
                 SessionId = lastReadyPacket.SessionId
             }
         };
-        listener.WebSocket.Send(JsonConvert.SerializeObject(resumePacket));
+        client.WebSocket.Send(JsonConvert.SerializeObject(resumePacket));
     }
     public OperationCode Code => OperationCode.Reconnect;
     public string? SubEventType => null;

@@ -7,7 +7,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.MessageReactions;
 
 public class RemoveMessageReactionPacketHandler : IPacketHandler
 {
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         MessageReaction? messageReaction = packet.Data?.ToObject<MessageReaction>();
         if (messageReaction == null)
@@ -15,10 +15,10 @@ public class RemoveMessageReactionPacketHandler : IPacketHandler
             return;
         }
 
-        listener.EventManager
+        client.EventManager
             .GuildMessageReactionEvents
             .OnRemoveMessageReaction?
-            .Invoke(listener, new MessageReactionEventArgs(packet, messageReaction));
+            .Invoke(client, new MessageReactionEventArgs(packet, messageReaction));
     }
 
     public OperationCode Code => OperationCode.Dispatch;

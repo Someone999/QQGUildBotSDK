@@ -26,8 +26,8 @@ class QqChannelBotSdkManager
         return _instance;
     }
 
-    private Dictionary<BotIdentifier, QqChannelBotSdk> _sdks = new Dictionary<BotIdentifier, QqChannelBotSdk>();
-    internal void Add(QqChannelBotSdk sdk)
+    private Dictionary<BotIdentifier, QqGuildBotSdk> _sdks = new Dictionary<BotIdentifier, QqGuildBotSdk>();
+    internal void Add(QqGuildBotSdk sdk)
     {
         if (_sdks.ContainsKey(sdk.BotIdentifier))
         {
@@ -37,14 +37,14 @@ class QqChannelBotSdkManager
         _sdks.Add(sdk.BotIdentifier, sdk);
     }
 
-    public bool Remove(QqChannelBotSdk sdk) => _sdks.Remove(sdk.BotIdentifier);
-    public QqChannelBotSdk Get(BotIdentifier identifier)
+    public bool Remove(QqGuildBotSdk sdk) => _sdks.Remove(sdk.BotIdentifier);
+    public QqGuildBotSdk Get(BotIdentifier identifier)
     {
         if (_sdks.ContainsKey(identifier))
         {
             return _sdks[identifier];
         }
-        var newSdk = new QqChannelBotSdk(identifier);
+        var newSdk = new QqGuildBotSdk(identifier);
         Add(newSdk);
         return newSdk;
 

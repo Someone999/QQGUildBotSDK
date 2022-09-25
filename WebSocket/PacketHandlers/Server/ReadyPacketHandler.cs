@@ -5,7 +5,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Server;
 
 public class ReadyPacketHandler : IPacketHandler
 {
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         //AdditionData = packet.Data?.ToObject<ReadyPacketData>();
         Console.WriteLine("WebSocket已经准备就绪");

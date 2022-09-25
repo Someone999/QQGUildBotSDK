@@ -8,25 +8,25 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Server;
 public class HelloPacketHandler : IPacketHandler
 {
 
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         //AdditionData = packet.Data?.ToObject<HelloPacketData>();
         AuthenticatePacket authenticatePacket = new AuthenticatePacket();
-        var identifier = listener.Identifier;
+        var identifier = client.Identifier;
         AuthenticatePacketData data = new AuthenticatePacketData
         {
             Token = $"Bot {identifier.BotAppId}.{identifier.BotToken}",
             Shard = Shard.OneShard,
-            RegisteredEvents = listener.RegisteredEvent
+            RegisteredEvents = client.RegisteredEvent
         };
         authenticatePacket.Data = data;
         
-        if (!listener.Connected)
+        if (!client.Connected)
         {
             return;
         }
         
-        listener.WebSocket.Send(JsonConvert.SerializeObject(authenticatePacket));
+        client.WebSocket.Send(JsonConvert.SerializeObject(authenticatePacket));
     }
     public OperationCode Code => OperationCode.Hello;
     public string? SubEventType => null;

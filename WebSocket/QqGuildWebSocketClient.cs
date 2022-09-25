@@ -15,11 +15,11 @@ using Timer = System.Timers.Timer;
 
 namespace QqChannelRobotSdk.WebSocket;
 
-public class QqGuildWebSocketListener
+public class QqGuildWebSocketClient
 {
-    public  QqChannelBotSdk Sdk { get; }
+    public QqGuildBotSdk Sdk { get; }
     public EventManager EventManager { get; } = new EventManager();
-    public QqGuildWebSocketListener(BotIdentifier identifier)
+    public QqGuildWebSocketClient(BotIdentifier identifier)
     {
         var httpClient = identifier.GetBotTokenAuthenticateHttpClient();
         Identifier = identifier;
@@ -33,7 +33,7 @@ public class QqGuildWebSocketListener
 
         string wssUrl = jObj["url"]?.ToObject<string>() ?? throw new Exception("Failed to get wss url");
         WebSocket = new WebSocket4Net.WebSocket(wssUrl);
-        Sdk = QqChannelBotSdk.GetSdk(identifier);
+        Sdk = QqGuildBotSdk.GetSdk(identifier);
         
     }
     internal readonly WebSocket4Net.WebSocket WebSocket;
@@ -47,7 +47,6 @@ public class QqGuildWebSocketListener
     public bool UseSandboxEnvironment { get; set; }
     public PrimaryEventType RegisteredEvent { get; set; } = PrimaryEventType.None;
     private bool _started;
-
     public bool Connected => WebSocket.State == WebSocketState.Open;
     public void Start()
     {

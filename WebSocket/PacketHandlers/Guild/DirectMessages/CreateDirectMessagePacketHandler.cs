@@ -7,7 +7,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.DirectMessages;
 
 public class CreateDirectMessagePacketHandler : IPacketHandler
 {
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         Message? msg = packet.Data?.ToObject<Message>();
         if (msg == null)
@@ -15,7 +15,7 @@ public class CreateDirectMessagePacketHandler : IPacketHandler
             return;
         }
 
-        listener.EventManager.GuildDirectMessageEvents.OnDirectMessageCreate?.Invoke(listener, new MessageCreateEventArgs(packet, msg));
+        client.EventManager.GuildDirectMessageEvents.OnDirectMessageCreate?.Invoke(client, new MessageCreateEventArgs(packet, msg));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "DIRECT_MESSAGE_CREATE";

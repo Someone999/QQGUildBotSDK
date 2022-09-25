@@ -5,7 +5,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Server;
 
 public class HeartbeatAckPackageHandler : IPacketHandler
 {
-    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
     }
     public OperationCode Code => OperationCode.HeartbeatAck;

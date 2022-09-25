@@ -16,43 +16,13 @@ using QqChannelRobotSdk.Tools;
 
 namespace QqChannelRobotSdk.Sdk;
 
-public static class ResponseTools
+public class QqGuildBotSdk
 {
-    public static async Task<ApiResponse<TData?, GeneralErrorResponse>> GetReturnValueAsync<TData>(HttpResponseMessage responseMessage)
-    {
-        string responseStr = await responseMessage.Content.ReadAsStringAsync();
-        JObject? jObject = JsonConvert.DeserializeObject<JObject>(responseStr) ?? new JObject();
-
-        bool hasErrorJson = jObject.ContainsKey("code") && jObject.ContainsKey("message");
-        bool hasErrorHttp = !responseMessage.IsSuccessStatusCode;
-        bool hasError = hasErrorHttp || hasErrorJson;
-        if (hasError)
-        {
-            return new ApiResponse<TData?, GeneralErrorResponse>(default, GeneralErrorResponse.Create(jObject, responseMessage));
-        }
-        var data = jObject.ToObject<TData>();
-        return new ApiResponse<TData?, GeneralErrorResponse>(data, null);
-    }
-
-    public static async Task<GeneralErrorResponse?> GetReturnValueAsync(HttpResponseMessage responseMessage)
-    {
-        string responseStr = await responseMessage.Content.ReadAsStringAsync();
-        JObject? jObject = JsonConvert.DeserializeObject<JObject>(responseStr) ?? new JObject();
-        bool hasErrorJson = jObject.ContainsKey("code") && jObject.ContainsKey("message");
-        bool hasErrorHttp = !responseMessage.IsSuccessStatusCode;
-        bool hasError = hasErrorHttp || hasErrorJson;
-
-        return hasError ? GeneralErrorResponse.Create(jObject, responseMessage) : null;
-    }
-}
-
-public class QqChannelBotSdk
-{
-    internal QqChannelBotSdk(BotIdentifier identifier)
+    internal QqGuildBotSdk(BotIdentifier identifier)
     {
         BotIdentifier = identifier;
     }
-    public static QqChannelBotSdk GetSdk(BotIdentifier identifier)
+    public static QqGuildBotSdk GetSdk(BotIdentifier identifier)
     {
         return QqChannelBotSdkManager.GetInstance().Get(identifier);
     }

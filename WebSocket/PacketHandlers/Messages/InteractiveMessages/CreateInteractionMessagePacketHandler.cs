@@ -10,7 +10,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages.InteractiveMessage
 {
     internal class CreateInteractionMessagePacketHandler : IPacketHandler
     {
-        public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+        public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
         {
             Console.WriteLine("[PackHandler::CreateInteractionMessage] 目前无法确定该事件的结构，暂不处理");
             //Console.WriteLine(packet.Data);

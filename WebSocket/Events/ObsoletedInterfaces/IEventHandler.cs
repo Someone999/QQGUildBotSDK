@@ -5,5 +5,5 @@ namespace QqChannelRobotSdk.WebSocket.Events;
 
 public interface IEventHandler<in TEventArg>
 {
-    void Handle(QqGuildWebSocketListener listener, TEventArg? arg);
+    void Handle(QqGuildWebSocketClient client, TEventArg? arg);
 }

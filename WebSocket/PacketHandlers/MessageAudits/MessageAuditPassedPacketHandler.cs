@@ -12,7 +12,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.MessageAudits
 {
     public class MessageAuditPassedPacketHandler : IPacketHandler
     {
-        public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+        public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
         {
             MessageAudited? msg = packet.Data?.ToObject<MessageAudited>();
             if (msg == null)
@@ -20,7 +20,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.MessageAudits
                 return;
             }
             
-            listener.EventManager.MessageAuditEvents.OnMessageAuditPassed?.Invoke(listener, new MessageAuditEventArgs(packet, msg));
+            client.EventManager.MessageAuditEvents.OnMessageAuditPassed?.Invoke(client, new MessageAuditEventArgs(packet, msg));
         }
 
         public OperationCode Code => OperationCode.Dispatch;
