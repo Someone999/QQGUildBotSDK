@@ -5,7 +5,6 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Server;
 
 public class ReadyPacketHandler : IPacketHandler
 {
-    private ReadyPacketData? _additionData;
     public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
     {
         //AdditionData = packet.Data?.ToObject<ReadyPacketData>();
@@ -13,6 +12,4 @@ public class ReadyPacketHandler : IPacketHandler
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string SubEventType => "READY";
-   
-
 }

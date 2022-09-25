@@ -5,14 +5,14 @@ namespace QqChannelRobotSdk.Announces;
 public class Announcement
 {
     [JsonProperty("guild_id")]
-    public string GuildId { get; private set; }
-    
+    public string GuildId { get; private set; } = "";
+
     [JsonProperty("channel_id")]
-    public string ChannelId { get; private set; }
-    
+    public string ChannelId { get; private set; } = "";
+
     [JsonProperty("message_id")]
-    public string MessageId { get; private set; }
-    
+    public string MessageId { get; private set; } = "";
+
     [JsonProperty("announces_type")]
     public AnnouncementType AnnouncementType { get; private set; }
     

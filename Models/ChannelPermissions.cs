@@ -5,13 +5,13 @@ namespace QqChannelRobotSdk.Models;
 public class ChannelPermissions
 {
     [JsonProperty("channel_id")]
-    public string ChannelId { get; private set; }
-    
+    public string ChannelId { get; private set; } = "";
+
     [JsonProperty("user_id")]
-    public string? UserId { get; private set; }
-    
+    public string? UserId { get; private set; } = "";
+
     [JsonProperty("role_id")]
-    public string? RoleId { get; private set; }
+    public string? RoleId { get; private set; } = "";
 
     [JsonProperty("permissions")]
     private string InnerPermissions { get; set; } = "0";

@@ -10,7 +10,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages;
 
 public class MessageCreatePacketHandler : IPacketHandler
 {
-    public async void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
+    public void Handle(QqGuildWebSocketListener listener, ServerPacketBase packet)
     {
         Message? msg = packet.Data?.ToObject<Message>();
         if (msg == null)

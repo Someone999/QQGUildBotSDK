@@ -13,7 +13,7 @@ public class BotIdentifier : IEqualityComparer<BotIdentifier>
     [JsonProperty("bot_token")]
     public string BotToken { get; set; } = "";
 
-    static HttpClient _botTokenAuthenticateHttpClient;
+    static readonly HttpClient BotTokenAuthenticateHttpClient = new HttpClient();
     public BotIdentifier(string botAppId, string botSecretKey, string botToken)
     {
         BotAppId = botAppId;
@@ -21,14 +21,12 @@ public class BotIdentifier : IEqualityComparer<BotIdentifier>
         BotToken = botToken;
         string concatToken = "Bot " + BotAppId + "." + BotToken;
         BotAuthToken = concatToken;
-        _botTokenAuthenticateHttpClient = new HttpClient();
-        _botTokenAuthenticateHttpClient.DefaultRequestHeaders.Add("Authorization", concatToken);
-        
+        BotTokenAuthenticateHttpClient.DefaultRequestHeaders.Add("Authorization", concatToken);
     }
 
     public HttpClient GetBotTokenAuthenticateHttpClient()
     {
-        return _botTokenAuthenticateHttpClient;
+        return BotTokenAuthenticateHttpClient;
     }
     
     public bool Equals(BotIdentifier? x, BotIdentifier? y)

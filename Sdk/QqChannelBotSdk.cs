@@ -157,7 +157,7 @@ public class QqChannelBotSdk
         return ret;
     }
 
-    public async Task<GeneralErrorResponse> DeleteChannelAsync(Channel channel) => await DeleteChannelAsync(channel.Id);
+    public async Task<GeneralErrorResponse?> DeleteChannelAsync(Channel channel) => await DeleteChannelAsync(channel.Id);
 
     public async Task<ApiResponse<Member[], GeneralErrorResponse>> GetMembersAsync(string guildId, string? after = null, int? limit = null)
     {
