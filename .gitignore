@@ -15,6 +15,8 @@
 
 # Mono auto generated files
 mono_crash.*
+# Rider
+.idea/*
 
 # Build results
 [Dd]ebug/
