@@ -18,6 +18,6 @@ public class GuildCreatePacketHandler : IPacketHandler
         client.EventManager.GuildEvents.OnGuildCreate?.Invoke(client, new GuildEventArgs(packet, guild));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "GUILD_CREATE";
+    public string SubEventType => "GUILD_CREATE";
   
 }

@@ -19,6 +19,6 @@ public class PublicMessageDeletePackageHandler : IPacketHandler
         client.EventManager.OnDeletePublicMessage?.Invoke(client, new MessageDeleteEventArgs(packet, msgDelete));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "PUBLIC_MESSAGE_DELETE";
+    public string SubEventType => "PUBLIC_MESSAGE_DELETE";
    
 }

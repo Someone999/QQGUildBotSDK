@@ -22,6 +22,6 @@ public class RemoveMessageReactionPacketHandler : IPacketHandler
     }
 
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "MESSAGE_REACTION_REMOVE";
+    public string SubEventType => "MESSAGE_REACTION_REMOVE";
    
 }

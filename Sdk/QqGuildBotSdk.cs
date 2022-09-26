@@ -10,6 +10,7 @@ using QqChannelRobotSdk.Messages;
 using QqChannelRobotSdk.Messages.Ark;
 using QqChannelRobotSdk.Messages.Markdown;
 using QqChannelRobotSdk.Models;
+using QqChannelRobotSdk.Models.Forums;
 using QqChannelRobotSdk.Request;
 using QqChannelRobotSdk.Response;
 using QqChannelRobotSdk.Tools;
@@ -107,7 +108,7 @@ public class QqGuildBotSdk
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
         urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
-        var jsonContent = new StringContent(JsonConvert.SerializeObject(request));
+        var jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var result = await httpClient.PatchAsync(urlBuilder.Build(), jsonContent);
         return await ResponseTools.GetReturnValueAsync<Channel>(result);
     }
@@ -500,7 +501,7 @@ public class QqGuildBotSdk
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
         urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("mute");
-        StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request));
+        StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PatchAsync(urlBuilder.Build(), jsonContent);
         return await ResponseTools.GetReturnValueAsync(rslt);
@@ -513,7 +514,7 @@ public class QqGuildBotSdk
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
         urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId);
         urlBuilder.AddSubLevel("members").AddSubLevel(userId).AddSubLevel("mute");
-        StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request));
+        StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PatchAsync(urlBuilder.Build(), jsonContent);
         return await ResponseTools.GetReturnValueAsync(rslt);
@@ -527,7 +528,7 @@ public class QqGuildBotSdk
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
         urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId);
         urlBuilder.AddSubLevel("members").AddSubLevel(userId).AddSubLevel("mute");
-        StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request));
+        StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PatchAsync(urlBuilder.Build(), jsonContent);
         return await ResponseTools.GetReturnValueAsync(rslt);
@@ -779,4 +780,83 @@ public class QqGuildBotSdk
 
     public async Task<GeneralErrorResponse?> TurnOffMicAsync(Channel channel) => await TurnOffMicAsync(channel.Id);
 
+    public async Task<ApiResponse<GetThreadsResponse?, GeneralErrorResponse>> GetThreadsAsync(string channelId)
+    {
+        UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
+        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("threads");
+        var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
+        var rslt = await httpClient.GetAsync(urlBuilder.Build());
+        return await ResponseTools.GetReturnValueAsync<GetThreadsResponse>(rslt);
+    }
+
+    public async Task<ApiResponse<GetThreadsResponse?, GeneralErrorResponse>> GetThreadsAsync(Channel channel) =>
+        await GetThreadsAsync(channel.Id);
+
+    public async Task<ApiResponse<ForumThreadInfo?, GeneralErrorResponse>> GetThreadInfoAsync(string channelId, string threadId)
+    {
+        UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
+        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("threads").AddSubLevel(threadId);
+        var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
+        var rslt = await httpClient.GetAsync(urlBuilder.Build());
+        return await ResponseTools.GetReturnValueAsync<ForumThreadInfo>(rslt);
+    }
+
+    public async Task<ApiResponse<ForumThreadInfo?, GeneralErrorResponse>> GetThreadInfoAsync(Channel channel, ForumThread forumThread) =>
+        await GetThreadInfoAsync(channel.Id, forumThread.ForumThreadInfo.ThreadId);
+
+
+    public async Task<ApiResponse<CreateThreadResponse?, GeneralErrorResponse>> CreateForumThreadAsync(string channelId, CreateForumThreadRequest request)
+    {
+        UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
+        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("threads");
+        var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
+        string content = JsonConvert.SerializeObject(request);
+        StringContent sendContent = new StringContent(content, null, "application/json");
+        var rslt = await httpClient.PutAsync(urlBuilder.Build(), sendContent);
+        return await ResponseTools.GetReturnValueAsync<CreateThreadResponse>(rslt);
+    }
+
+    public async Task<ApiResponse<CreateThreadResponse?, GeneralErrorResponse>> CreateForumThreadAsync(Channel channel, CreateForumThreadRequest request) =>
+        await CreateForumThreadAsync(channel.Id, request);
+
+    public async Task<GeneralErrorResponse?> DeleteThreadInfoAsync(string channelId, string threadId)
+    {
+        UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
+        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("threads").AddSubLevel(threadId);
+        var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
+        var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
+        return await ResponseTools.GetReturnValueAsync(rslt);
+    }
+
+    public async Task<GeneralErrorResponse?> DeleteThreadInfoAsync(Channel channel, ForumThread forumThread) =>
+        await DeleteThreadInfoAsync(channel.Id, forumThread.ForumThreadInfo.ThreadId);
+
+    public async Task<ApiResponse<GetApiPermissionsResponse?, GeneralErrorResponse>> GetGuildApiPermissions(
+        string guildId)
+    {
+        UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
+        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("api_permission");
+        var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
+        var rslt = await httpClient.GetAsync(urlBuilder.Build());
+        return await ResponseTools.GetReturnValueAsync<GetApiPermissionsResponse>(rslt);
+    }
+
+    public async Task<ApiResponse<GetApiPermissionsResponse?, GeneralErrorResponse>> GetGuildApiPermissions(Guild guild) => 
+        await GetGuildApiPermissions(guild.Id);
+
+    public async Task<ApiResponse<ApiPermissionDemand?, GeneralErrorResponse>> CreateApiPermissionRequestLink
+        (string guildId, CreateApiAuthenticateRequestLinkRequest request)
+    {
+        UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
+        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("api_permission").AddSubLevel("demand");
+        var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
+        string content = JsonConvert.SerializeObject(request);
+        StringContent sendContent = new StringContent(content, null, "application/json");
+        var rslt = await httpClient.PutAsync(urlBuilder.Build(), sendContent);
+        return await ResponseTools.GetReturnValueAsync<ApiPermissionDemand>(rslt);
+    }
+
+    public async Task<ApiResponse<ApiPermissionDemand?, GeneralErrorResponse>> CreateApiPermissionRequestLink(
+        Guild guild, CreateApiAuthenticateRequestLinkRequest request)
+        => await CreateApiPermissionRequestLink(guild.Id, request);
 }

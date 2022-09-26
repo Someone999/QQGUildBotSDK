@@ -19,5 +19,5 @@ public class UpdateChannelPacketHandler : IPacketHandler
         client.EventManager.GuildEvents.OnChannelUpdate?.Invoke(client, new ChannelEventArgs(channel, packet));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "CHANNEL_UPDATE";
+    public string SubEventType => "CHANNEL_UPDATE";
 }

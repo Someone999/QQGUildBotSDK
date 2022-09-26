@@ -18,5 +18,5 @@ public class GuildUpdatePacketHandler : IPacketHandler
         client.EventManager.GuildEvents.OnGuildUpdate?.Invoke(client, new GuildEventArgs(packet, guild));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "GUILD_UPDATE";
+    public string SubEventType => "GUILD_UPDATE";
 }

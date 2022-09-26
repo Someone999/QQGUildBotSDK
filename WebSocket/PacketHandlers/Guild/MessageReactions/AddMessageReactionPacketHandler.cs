@@ -27,7 +27,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.MessageReactions
         }
 
         public OperationCode Code => OperationCode.Dispatch;
-        public string? SubEventType => "MESSAGE_REACTION_ADD";
+        public string SubEventType => "MESSAGE_REACTION_ADD";
        
     }
 }

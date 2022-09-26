@@ -20,6 +20,6 @@ public class MessageDeletePackageHandler : IPacketHandler
         client.EventManager.GuildMessageEvents.OnMessageDelete?.Invoke(client, new MessageDeleteEventArgs(packet, msgDelete));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "MESSAGE_DELETE";
+    public string SubEventType => "MESSAGE_DELETE";
     
 }

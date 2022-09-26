@@ -19,5 +19,5 @@ public class GuildRemovedMemberInfoPacketHandler : IPacketHandler
     }
 
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "GUILD_MEMBER_REMOVE";
+    public string SubEventType => "GUILD_MEMBER_REMOVE";
 }

@@ -24,5 +24,5 @@ public class GuildJoinedMemberPacketHandler : IPacketHandler
     }
 
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "GUILD_MEMBER_ADD";
+    public string SubEventType => "GUILD_MEMBER_ADD";
 }

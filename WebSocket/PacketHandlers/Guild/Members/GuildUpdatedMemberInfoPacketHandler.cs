@@ -19,5 +19,5 @@ public class GuildUpdatedMemberInfoPacketHandler : IPacketHandler
     }
 
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "GUILD_MEMBER_UPDATE";
+    public string SubEventType => "GUILD_MEMBER_UPDATE";
 }

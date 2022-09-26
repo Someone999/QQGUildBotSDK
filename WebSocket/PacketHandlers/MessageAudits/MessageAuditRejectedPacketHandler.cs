@@ -19,5 +19,5 @@ public class MessageAuditRejectedPacketHandler : IPacketHandler
     }
 
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "MESSAGE_AUDIT_REJECT";
+    public string SubEventType => "MESSAGE_AUDIT_REJECT";
 }

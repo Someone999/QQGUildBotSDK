@@ -10,6 +10,7 @@ public class ReconnectPacketHandler : IPacketHandler
 
     public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
+        Console.WriteLine("WebSocket意外断开，正在重连");
         var lastReadyPacket = PacketManager.LastReadyPacket;
         if (lastReadyPacket == null)
         {
@@ -26,6 +27,7 @@ public class ReconnectPacketHandler : IPacketHandler
             }
         };
         client.WebSocket.Send(JsonConvert.SerializeObject(resumePacket));
+        Console.WriteLine("");
     }
     public OperationCode Code => OperationCode.Reconnect;
     public string? SubEventType => null;

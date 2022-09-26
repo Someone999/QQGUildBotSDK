@@ -24,7 +24,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.MessageAudits
         }
 
         public OperationCode Code => OperationCode.Dispatch;
-        public string? SubEventType => "MESSAGE_AUDIT_PASS";
+        public string SubEventType => "MESSAGE_AUDIT_PASS";
        
     }
 }

@@ -22,7 +22,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages
 
         }
         public OperationCode Code => OperationCode.Dispatch;
-        public string? SubEventType => "AT_MESSAGE_CREATE";
+        public string SubEventType => "AT_MESSAGE_CREATE";
         
     }
 }

@@ -18,6 +18,6 @@ public class GuildDeletePacketHandler : IPacketHandler
         client.EventManager.GuildEvents.OnGuildDelete?.Invoke(client, new GuildEventArgs(packet, guild));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "GUILD_DELETE";
+    public string SubEventType => "GUILD_DELETE";
    
 }

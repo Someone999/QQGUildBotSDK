@@ -18,6 +18,6 @@ public class RemoveDirectMessagePacketHandler : IPacketHandler
         client.EventManager.GuildDirectMessageEvents.OnDirectMessageDelete?.Invoke(client, new MessageDeleteEventArgs(packet, msg));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "DIRECT_MESSAGE_DELETE";
+    public string SubEventType => "DIRECT_MESSAGE_DELETE";
     
 }

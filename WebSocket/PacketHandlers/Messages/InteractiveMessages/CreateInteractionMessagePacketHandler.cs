@@ -17,6 +17,6 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages.InteractiveMessage
         }
 
         public OperationCode Code => OperationCode.Dispatch;
-        public string? SubEventType => "INTERACTION_CREATE";
+        public string SubEventType => "INTERACTION_CREATE";
     }
 }

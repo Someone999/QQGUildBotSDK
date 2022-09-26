@@ -18,5 +18,5 @@ public class CreateDirectMessagePacketHandler : IPacketHandler
         client.EventManager.GuildDirectMessageEvents.OnDirectMessageCreate?.Invoke(client, new MessageCreateEventArgs(packet, msg));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "DIRECT_MESSAGE_CREATE";
+    public string SubEventType => "DIRECT_MESSAGE_CREATE";
 }

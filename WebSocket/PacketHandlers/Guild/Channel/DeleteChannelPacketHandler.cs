@@ -19,5 +19,5 @@ public class DeleteChannelPacketHandler : IPacketHandler
         client.EventManager.GuildEvents.OnChannelDelete?.Invoke(client, new ChannelEventArgs(channel, packet));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "CHANNEL_DELETE";
+    public string SubEventType => "CHANNEL_DELETE";
 }

@@ -21,7 +21,7 @@ public class MessageCreatePacketHandler : IPacketHandler
         client.EventManager.GuildMessageEvents.OnMessageCreate?.Invoke(client, new MessageCreateEventArgs(packet, msg));
     }
     public OperationCode Code => OperationCode.Dispatch;
-    public string? SubEventType => "MESSAGE_CREATE";
+    public string SubEventType => "MESSAGE_CREATE";
    
 }
 
