@@ -12,10 +12,4 @@
       <PackageReference Include="WebSocket4Net" Version="0.15.2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="HSMan">
-        <HintPath>..\..\HSMan\bin\Debug\net6.0\HSMan.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
 </Project>

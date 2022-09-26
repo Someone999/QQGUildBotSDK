@@ -8,6 +8,9 @@ namespace QqChannelRobotSdk.WebSocket.Events;
 
 public class EventManager
 {
+    internal EventManager()
+    {
+    }
     public GuildEvents GuildEvents { get; } = new GuildEvents();
     public GuildMemberEvents GuildMemberEvents { get; } = new GuildMemberEvents();
     public GuildMessageEvents GuildMessageEvents { get; } = new GuildMessageEvents();
