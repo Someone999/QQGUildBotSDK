@@ -1,7 +1,7 @@
-﻿using System.Net.Sockets;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using QqChannelRobotSdk.Models.Channels;
 
-namespace QqChannelRobotSdk.Models;
+namespace QqChannelRobotSdk.Request;
 
 public class ChangeChannelPermissionRequest
 {

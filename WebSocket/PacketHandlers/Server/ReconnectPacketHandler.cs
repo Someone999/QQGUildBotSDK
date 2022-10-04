@@ -27,9 +27,8 @@ public class ReconnectPacketHandler : IPacketHandler
             }
         };
         client.WebSocket.Send(JsonConvert.SerializeObject(resumePacket));
-        Console.WriteLine("");
+        Console.WriteLine("已发送连接请求");
     }
     public OperationCode Code => OperationCode.Reconnect;
     public string? SubEventType => null;
-    public object? AdditionData => null;
 }

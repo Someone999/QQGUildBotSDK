@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QqChannelRobotSdk.Messages;
+using QqChannelRobotSdk.Messages.MessageReaction;
 using QqChannelRobotSdk.WebSocket.Events.EventArgs;
 using QqChannelRobotSdk.WebSocket.Packets;
 using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;

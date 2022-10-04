@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using QqChannelRobotSdk.Messages.MessageReaction;
+using QqChannelRobotSdk.Models.Members;
 
 namespace QqChannelRobotSdk.Models;
 

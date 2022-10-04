@@ -9,8 +9,12 @@ using QqChannelRobotSdk.Authenticate;
 using QqChannelRobotSdk.Messages;
 using QqChannelRobotSdk.Messages.Ark;
 using QqChannelRobotSdk.Messages.Markdown;
+using QqChannelRobotSdk.Messages.MessageReaction;
 using QqChannelRobotSdk.Models;
+using QqChannelRobotSdk.Models.Channels;
 using QqChannelRobotSdk.Models.Forums;
+using QqChannelRobotSdk.Models.Members;
+using QqChannelRobotSdk.Models.Messages;
 using QqChannelRobotSdk.Request;
 using QqChannelRobotSdk.Response;
 using QqChannelRobotSdk.Tools;
@@ -152,7 +156,7 @@ public class QqGuildBotSdk
         return await GetMembersAsync(guild.Id, after, limit);
     }
 
-    public async Task<ApiResponse<RoleMembersResponse?, GeneralErrorResponse>> GetRoleMembersAsync(string guildId, int roleId, int? startIndex = null, int? limit = null)
+    public async Task<ApiResponse<RoleMembersResponse?, GeneralErrorResponse>> GetRoleMembersAsync(string guildId, string roleId, int? startIndex = null, int? limit = null)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
         urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("roles").AddSubLevel(roleId.ToString()).AddSubLevel("members");
@@ -162,12 +166,12 @@ public class QqGuildBotSdk
         return await ResponseTools.GetReturnValueAsync<RoleMembersResponse?>(rslt);
     }
 
-    public async Task<ApiResponse<RoleMembersResponse?, GeneralErrorResponse>> GetRoleMembersAsync(Guild guild, int roleId, int? startIndex = null, int? limit = null)
+    public async Task<ApiResponse<RoleMembersResponse?, GeneralErrorResponse>> GetRoleMembersAsync(Guild guild, string roleId, int? startIndex = null, int? limit = null)
     {
         return await GetRoleMembersAsync(guild.Id, roleId, startIndex, limit);
     }
     
-    public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(string guildId, int userId, int? startIndex = null, int? limit = null)
+    public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(string guildId, string userId, int? startIndex = null, int? limit = null)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
         urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("members").AddSubLevel(userId.ToString());
@@ -177,12 +181,12 @@ public class QqGuildBotSdk
         return await ResponseTools.GetReturnValueAsync<Member?>(rslt);
     }
 
-    public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(Guild guild, int userId, int? startIndex = null, int? limit = null)
+    public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(Guild guild, string userId, int? startIndex = null, int? limit = null)
     {
         return await GetMemberInfoAsync(guild.Id, userId, startIndex, limit);
     }
     
-    public async Task<ApiResponse<Member?, GeneralErrorResponse>> RemoveMemberAsync(string guildId, int userId, bool? addToBlackList = null, int? discardMsgInDays = null)
+    public async Task<ApiResponse<Member?, GeneralErrorResponse>> RemoveMemberAsync(string guildId, string userId, bool? addToBlackList = null, int? discardMsgInDays = null)
     {
         if (!ParameterChecker.InValues(discardMsgInDays, -1, 3, 7, 15, 30, null))
         {
@@ -196,7 +200,7 @@ public class QqGuildBotSdk
         return await ResponseTools.GetReturnValueAsync<Member?>(rslt);
     }
 
-    public async Task<ApiResponse<Member?, GeneralErrorResponse>> RemoveMemberAsync(Guild guild, int userId, bool? addToBlackList = null, int? discardMsgInDays = null)
+    public async Task<ApiResponse<Member?, GeneralErrorResponse>> RemoveMemberAsync(Guild guild, string userId, bool? addToBlackList = null, int? discardMsgInDays = null)
     {
         return await RemoveMemberAsync(guild.Id, userId, addToBlackList, discardMsgInDays);
     }

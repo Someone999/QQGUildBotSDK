@@ -10,5 +10,4 @@ public class HeartbeatAckPackageHandler : IPacketHandler
     }
     public OperationCode Code => OperationCode.HeartbeatAck;
     public string? SubEventType => null;
-    public object? AdditionData => null;
 }

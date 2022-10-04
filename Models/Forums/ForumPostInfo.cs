@@ -12,7 +12,7 @@ public class ForumPostInfo
 
     [JsonProperty("content")]
 
-    public string Content { get; private set; } = "";
+    public RichText Content { get; private set; } = new RichText();
 
     [JsonProperty("date_time")]
 

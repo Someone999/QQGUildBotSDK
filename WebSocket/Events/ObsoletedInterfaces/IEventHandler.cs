@@ -1,7 +1,4 @@
-﻿using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.Models;
-
-namespace QqChannelRobotSdk.WebSocket.Events;
+﻿namespace QqChannelRobotSdk.WebSocket.Events.ObsoletedInterfaces;
 
 public interface IEventHandler<in TEventArg>
 {

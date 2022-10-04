@@ -1,4 +1,5 @@
 ﻿using QqChannelRobotSdk.Models;
+using QqChannelRobotSdk.Models.Messages;
 using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
 
 namespace QqChannelRobotSdk.WebSocket.Events.EventArgs;

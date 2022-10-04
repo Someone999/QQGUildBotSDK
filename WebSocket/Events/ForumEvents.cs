@@ -16,9 +16,21 @@ namespace QqChannelRobotSdk.WebSocket.Events
 
     public class ForumPostEvents
     {
+        public QqGuildWebSocketEvent<ForumPostEventArgs>? OnForumPostCreate { get; set; }
+        public QqGuildWebSocketEvent<ForumPostEventArgs>? OnForumPostDelete { get; set; }
+    }
+    
+    public class ForumReplyEvents
+    {
+        public QqGuildWebSocketEvent<ForumReplyEventArgs>? OnForumReplyCreate { get; set; }
+        public QqGuildWebSocketEvent<ForumReplyEventArgs>? OnForumReplyDelete { get; set; }
     }
 
     public class ForumEvents
     {
+        public ForumThreadEvents ForumThreadEvents { get; } = new ForumThreadEvents();
+        public ForumPostEvents ForumPostEvents { get; } = new ForumPostEvents();
+        public ForumReplyEvents ForumReplyEvents { get; } = new ForumReplyEvents();
+        public QqGuildWebSocketEvent<ForumPublishAuditResultArgs>? OnForumPublishAudit { get; set; }
     }
 }

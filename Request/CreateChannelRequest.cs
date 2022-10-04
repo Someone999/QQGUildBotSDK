@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using QqChannelRobotSdk.Models;
+using QqChannelRobotSdk.Models.Channels;
 
 namespace QqChannelRobotSdk.Request;
 

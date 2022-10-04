@@ -17,6 +17,8 @@ public class EventManager
     public GuildMessageReactionEvents GuildMessageReactionEvents { get; } = new GuildMessageReactionEvents();
     public GuildDirectMessageEvents GuildDirectMessageEvents { get; } = new GuildDirectMessageEvents();
     public MessageAuditEvents MessageAuditEvents { get; } = new MessageAuditEvents();
+    public ForumEvents ForumEvents { get; } = new ForumEvents();
+    public AudioEvents AudioEvents { get; } = new AudioEvents();
 
     [Obsolete("这个事件没有做好，不会使用")]
     public QqGuildWebSocketEvent<InteractionEventArgs>? OnCreateInteractionMessage => null;

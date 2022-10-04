@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Models;
+﻿namespace QqChannelRobotSdk.Messages.MessageReaction;
 
 public enum EmojiType
 {

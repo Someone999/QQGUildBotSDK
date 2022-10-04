@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages;
+namespace QqChannelRobotSdk.Messages.MessageReaction;
 
 public class MessageReaction
 {

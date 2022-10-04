@@ -2,7 +2,7 @@
 
 namespace QqChannelRobotSdk.Models;
 
-public class User
+public class User : IEqualityComparer<User>
 {
     [JsonProperty("id")]
     public string Id { get; set; } = "";
@@ -26,4 +26,20 @@ public class User
 
     public static User Empty { get; } = new();
 
+    public bool Equals(User? x, User? y)
+    {
+        if (ReferenceEquals(x, y))
+            return true;
+        if (ReferenceEquals(x, null))
+            return false;
+        if (ReferenceEquals(y, null))
+            return false;
+        if (x.GetType() != y.GetType())
+            return false;
+        return x.Id == y.Id;
+    }
+    public int GetHashCode(User obj)
+    {
+        return obj.Id.GetHashCode();
+    }
 }
