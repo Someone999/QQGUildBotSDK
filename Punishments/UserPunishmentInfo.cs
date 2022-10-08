@@ -1,7 +1,23 @@
 ﻿using QqChannelRobotSdk.Models;
+using QqChannelRobotSdk.WebSocket;
 using QqChannelRobotSdk.WebSocket.Events.EventArgs;
 
 namespace QqChannelRobotSdk.Punishments;
+
+public class PunishmentParameters
+{
+    public PunishmentParameters(QqGuildWebSocketClient client, IPunishment? punishment, MessageCreateEventArgs eventArgs, int violationCount = -1)
+    {
+        Client = client;
+        Punishment = punishment;
+        EventArgs = eventArgs;
+        ViolationCount = violationCount;
+    }
+    public QqGuildWebSocketClient Client { get; set; }
+    public IPunishment? Punishment { get; set; }
+    public MessageCreateEventArgs EventArgs { get; set; }
+    public int ViolationCount { get; set; }
+}
 
 public class UserPunishmentInfo
 {
@@ -11,9 +27,13 @@ public class UserPunishmentInfo
         User = user;
     }
     public User User { get; }
-    public PunishmentExecutionResult ApplyPunishment(IPunishment punishment, MessageCreateEventArgs eventArgs, int violationCount)
+    public PunishmentExecutionResult ApplyPunishment(PunishmentParameters parameters)
     {
-        AppliedPunishment.Add(punishment);
-        return punishment.Punish(eventArgs, violationCount);
+        if (parameters.Punishment == null)
+        {
+            return PunishmentExecutionResult.NoHandler;
+        }
+        AppliedPunishment.Add(parameters.Punishment);
+        return parameters.Punishment.Punish(parameters);
     }
 }

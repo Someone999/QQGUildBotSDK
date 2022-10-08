@@ -12,7 +12,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Server
     {
         public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
         {
-            Console.WriteLine("参数错误");
+            Console.WriteLine($"参数错误: {packet.Data}");
         }
 
         public OperationCode Code => OperationCode.InvalidSession;

@@ -11,7 +11,7 @@ public class ReconnectPacketHandler : IPacketHandler
     public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         Console.WriteLine("WebSocket意外断开，正在重连");
-        var lastReadyPacket = PacketManager.LastReadyPacket;
+        var lastReadyPacket = client.PacketManager.LastReadyPacket;
         if (lastReadyPacket == null)
         {
             Console.WriteLine("因为没有上一个Ready包，无法恢复连接");

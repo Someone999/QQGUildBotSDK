@@ -4,6 +4,11 @@ namespace QqChannelRobotSdk.WebSocket.Packets.ClientPackets;
 
 public class HeartbeatPacket : IClientPacket<int?>
 {
+    public HeartbeatPacket(int? data)
+    {
+        Data = data;
+    }
+
     [JsonProperty("op")]
     public OperationCode OperationCode => OperationCode.Heartbeat;
 
@@ -11,5 +16,5 @@ public class HeartbeatPacket : IClientPacket<int?>
     public int? Sequence => null;
 
     [JsonProperty("d")]
-    public int? Data { get; set; } = PacketManager.LastHasSequencePacket?.Sequence;
+    public int? Data { get; set; } 
 }

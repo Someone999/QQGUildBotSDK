@@ -5,6 +5,9 @@ namespace QqChannelRobotSdk.Punishments;
 
 public interface IPunishment
 {
-    QqGuildWebSocketClient Client { get; set; }
-    PunishmentExecutionResult Punish(MessageCreateEventArgs eventArgs, int violationCount);
+    int MaxViolationCount { get; set; }
+    int MinViolationCount { get; set; }
+    
+    int Priority { get; set; }
+    PunishmentExecutionResult Punish(PunishmentParameters parameters);
 }

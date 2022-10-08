@@ -1,4 +1,6 @@
-﻿using QqChannelRobotSdk.Models;
+﻿using System.Collections.ObjectModel;
+using QqChannelRobotSdk.Models;
+using QqChannelRobotSdk.Tools;
 using QqChannelRobotSdk.WebSocket.Events.EventArgs;
 
 namespace QqChannelRobotSdk.Punishments;
@@ -8,68 +10,84 @@ public class UserPunishmentManager
     private UserPunishmentManager()
     {
     }
-    private void HandlePunishResult(IPunishment punishment, PunishmentExecutionResult result, User user)
-    {
-        switch (result)
-        {
-            case PunishmentExecutionResult.ResetCounter:
-                _userPunishments[user].AppliedPunishment.Clear();
-                break;
-            case PunishmentExecutionResult.RemoveId:
-                _userPunishments.Remove(user);
-                break;
-            case PunishmentExecutionResult.Unhandled:
-            case PunishmentExecutionResult.Failed:
-            case PunishmentExecutionResult.NoHandler:
-            case PunishmentExecutionResult.Handled:
-            default:
-                break;
-        }
-    }
-    
-    private Dictionary<User, UserPunishmentInfo> _userPunishments= new();
 
-    public PunishmentExecutionResult Punish(IPunishment punishment, MessageCreateEventArgs eventArgs)
+    public IPunishResultHandler PunishResultHandler { get; set; } = new DefaultPunishResultHandler();
+    
+    public Dictionary<User, UserPunishmentInfo> UserPunishments { get; } = new();
+
+    public PunishmentExecutionResult Punish(PunishmentParameters parameters)
     {
-        var user = eventArgs.Message.Author;
+        var user = parameters.EventArgs.Message.Author;
         UserPunishmentInfo? punishmentInfo;
-        if (!_userPunishments.ContainsKey(user))
+        if (!UserPunishments.ContainsKey(user))
         {
-            _userPunishments.Add(user, punishmentInfo = new UserPunishmentInfo(user));
+            UserPunishments.Add(user, punishmentInfo = new UserPunishmentInfo(user));
         }
         else
         {
-            punishmentInfo = _userPunishments[user];
+            punishmentInfo = UserPunishments[user];
         }
 
         int violationCount = punishmentInfo.AppliedPunishment.Count;
-        var rslt = punishmentInfo.ApplyPunishment(punishment, eventArgs, violationCount);
-        HandlePunishResult(punishment, rslt, user);
+        var rslt = punishmentInfo.ApplyPunishment(parameters);
+        PunishResultHandler.Handle(parameters.Punishment, rslt, parameters.EventArgs);
         return rslt;
     }
     
     
-    public PunishmentExecutionResult Punish<T>(MessageCreateEventArgs eventArgs) where T: IPunishment
+    public PunishmentExecutionResult Punish<T>(PunishmentParameters parameters) where T: IPunishment
     {
-        var user = eventArgs.Message.Author;
+        var user = parameters.EventArgs.Message.Author;
         UserPunishmentInfo? punishmentInfo;
-        if (!_userPunishments.ContainsKey(user))
+        if (!UserPunishments.ContainsKey(user))
         {
-            _userPunishments.Add(user, punishmentInfo = new UserPunishmentInfo(user));
+            UserPunishments.Add(user, punishmentInfo = new UserPunishmentInfo(user));
         }
         else
         {
-            punishmentInfo = _userPunishments[user];
+            punishmentInfo = UserPunishments[user];
         }
-        var punishment = PunishManager.GetPunishment<T>();
+        var punishment = PunishmentManager.GetPunishment<T>();
         if (punishment == null)
         {
             return PunishmentExecutionResult.NoHandler;
         }
         
-        int violationCount = punishmentInfo.AppliedPunishment.Count;
-        var rslt = punishmentInfo.ApplyPunishment(punishment, eventArgs, violationCount);
-        HandlePunishResult(punishment, rslt, user);
+        parameters.ViolationCount = parameters.ViolationCount == -1 ? punishmentInfo.AppliedPunishment.Count : parameters.ViolationCount;
+        parameters.Punishment = punishment;
+        var rslt = punishmentInfo.ApplyPunishment(parameters);
+        PunishResultHandler.Handle(punishment, rslt, parameters.EventArgs);
+        return rslt;
+    }
+
+    public PunishmentExecutionResult AutoPunish(PunishmentParameters parameters)
+    {
+        var user = parameters.EventArgs.Message.Author;
+        UserPunishmentInfo? punishmentInfo;
+        if (!UserPunishments.ContainsKey(user))
+        {
+            UserPunishments.Add(user, punishmentInfo = new UserPunishmentInfo(user));
+        }
+        else
+        {
+            punishmentInfo = UserPunishments[user];
+        }
+
+        parameters.ViolationCount = parameters.ViolationCount == -1 ? punishmentInfo.AppliedPunishment.Count : parameters.ViolationCount;
+        
+        var punishments =
+            from p in PunishmentManager.Punishments
+            where MathUtils.InRange(parameters.ViolationCount, p.MinViolationCount, p.MaxViolationCount)
+            orderby p.Priority descending select p;
+
+        IPunishment? punishment = punishments.FirstOrDefault();
+        var rslt = punishment?.Punish(parameters) ?? PunishmentExecutionResult.NoHandler;
+        if (punishment == null)
+        {
+            return PunishmentExecutionResult.NoHandler;
+        }
+        
+        PunishResultHandler.Handle(punishment, rslt, parameters.EventArgs);
         return rslt;
     }
 

@@ -17,6 +17,7 @@ namespace QqChannelRobotSdk.WebSocket;
 
 public class QqGuildWebSocketClient
 {
+    public PacketManager PacketManager { get; } = new PacketManager();
     public QqGuildBotSdk Sdk { get; }
     public EventManager EventManager { get; } = new EventManager();
     public QqGuildWebSocketClient(BotIdentifier identifier)
@@ -76,7 +77,7 @@ public class QqGuildWebSocketClient
             return;
         }
         
-        lock (PacketManager.Locker)
+        lock (PacketManager)
         {
             PacketManager.LastPacket = basePacket;
             PacketManager.Packets.Add(basePacket);
@@ -100,12 +101,13 @@ public class QqGuildWebSocketClient
         }
         
         handler.Handle(this, basePacket);
-        if (handler is not HelloPacketHandler helloPacketHandler || _heartbeatTimer.Enabled)
+        if (handler is not HelloPacketHandler || _heartbeatTimer.Enabled)
         {
             return;
         }
         _heartbeatTimer.Interval = basePacket.Data?["heartbeat_interval"]?.ToObject<int>() ?? 41250;
-        _heartbeatTimer.Elapsed += (_, _) => WebSocket.Send(JsonConvert.SerializeObject(new HeartbeatPacket()));
+        _heartbeatTimer.Elapsed += (_, _) => 
+            WebSocket.Send(JsonConvert.SerializeObject(new HeartbeatPacket(PacketManager.LastHasSequencePacket?.Sequence)));
         _heartbeatTimer.Start();
 
     }

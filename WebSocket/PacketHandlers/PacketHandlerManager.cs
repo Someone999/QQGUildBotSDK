@@ -33,9 +33,12 @@ public static class PacketHandlerManager
 
     public static IPacketHandler? GetHandler(OperationCode opCode, string? subType)
     {
-        if (!_initialized)
+        lock (typeof(PacketHandlerManager))
         {
-            Init();
+            if (!_initialized)
+            {
+                Init();
+            }
         }
         return _packetHandlers.ContainsKey((opCode, subType))
             ? _packetHandlers[(opCode, subType)]

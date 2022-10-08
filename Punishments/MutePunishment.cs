@@ -1,5 +1,6 @@
 ﻿using QqChannelRobotSdk.Request;
 using QqChannelRobotSdk.Sdk;
+using QqChannelRobotSdk.Tools;
 using QqChannelRobotSdk.WebSocket;
 using QqChannelRobotSdk.WebSocket.Events.EventArgs;
 
@@ -7,26 +8,26 @@ namespace QqChannelRobotSdk.Punishments;
 
 public class MutePunishment : IPunishment
 {
-    public MutePunishment(QqGuildBotSdk sdk, QqGuildWebSocketClient client)
+    public int MaxViolationCount { get; set; } = 20;
+    public int MinViolationCount { get; set; } = 0;
+    public int Priority { get; set; } = 1;
+    public PunishmentExecutionResult Punish(PunishmentParameters parameters)
     {
-        Client = client;
-    }
-    public QqGuildWebSocketClient Client { get; set; }
-    public PunishmentExecutionResult Punish(MessageCreateEventArgs eventArgs, int violationCount)
-    {
-        if (violationCount > 20)
+        if (!MathUtils.InRange(parameters.ViolationCount, MinViolationCount, MaxViolationCount))
         {
             return PunishmentExecutionResult.Unhandled;
         }
-        int sec = violationCount * Math.Max(violationCount - 5, 0);
+        int sec = parameters.ViolationCount * Math.Max(parameters.ViolationCount - 5, 0);
         MuteRequest request = new MuteRequest
         {
             MuteSeconds = sec.ToString()
         };
-        string guildId = eventArgs.Message.GuildId;
-        string userId = eventArgs.Message.Author.Id;
+        string guildId = parameters.EventArgs.Message.GuildId;
+        string userId = parameters.EventArgs.Message.Author.Id;
+        Console.WriteLine($"尝试禁言用户{parameters.EventArgs.Message.Author.UserName}");
         var rslt =
-            Client.Sdk.MuteMemberAsync(guildId, userId, request).Result;
+            parameters.Client.Sdk.MuteMemberAsync(guildId, userId, request).Result;
+        
         return rslt != null
             ? PunishmentExecutionResult.Handled
             : PunishmentExecutionResult.Failed;
