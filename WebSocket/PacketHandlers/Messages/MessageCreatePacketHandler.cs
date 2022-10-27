@@ -1,12 +1,9 @@
-﻿using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.Request;
-using QqChannelRobotSdk.Sdk;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Messages;
 
 public class MessageCreatePacketHandler : IPacketHandler
 {
@@ -18,7 +15,7 @@ public class MessageCreatePacketHandler : IPacketHandler
             return;
         }
 
-        client.EventManager.GuildMessageEvents.OnMessageCreate?.Invoke(client, new MessageCreateEventArgs(packet, msg));
+        client.EventManager.GuildMessageEvents.OnMessageCreate?.Invoke(client, new MessageCreateEventArgs(client, packet, msg));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string SubEventType => "MESSAGE_CREATE";

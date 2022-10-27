@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.Messages.MessageReaction;
-using QqChannelRobotSdk.Models.Members;
+using QqGuildRobotSdk.Messages.MessageReaction;
+using QqGuildRobotSdk.Models.Members;
 
-namespace QqChannelRobotSdk.Models;
+namespace QqGuildRobotSdk.Models;
 
 public class Schedule
 {

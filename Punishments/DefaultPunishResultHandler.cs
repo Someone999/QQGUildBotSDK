@@ -1,25 +1,25 @@
-﻿using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
+﻿using QqGuildRobotSdk.Models;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-namespace QqChannelRobotSdk.Punishments;
+namespace QqGuildRobotSdk.Punishments;
 
 public class DefaultPunishResultHandler : IPunishResultHandler
 {
-    public void Handle(IPunishment? punishment, PunishmentExecutionResult result, MessageCreateEventArgs eventArgs)
+    public void Handle(IPunishment? punishment, PunishmentExecutionFlags flags, MessageCreateEventArgs eventArgs)
     {
         User user = eventArgs.Message.Author;
-        switch (result)
+        switch (flags)
         {
-            case PunishmentExecutionResult.ResetCounter:
+            case PunishmentExecutionFlags.ResetCounter:
                 UserPunishmentManager.GetInstance().UserPunishments[user].AppliedPunishment.Clear();
                 break;
-            case PunishmentExecutionResult.RemoveId:
+            case PunishmentExecutionFlags.RemoveId:
                 UserPunishmentManager.GetInstance().UserPunishments.Remove(user);
                 break;
-            case PunishmentExecutionResult.Unhandled:
-            case PunishmentExecutionResult.Failed:
-            case PunishmentExecutionResult.NoHandler:
-            case PunishmentExecutionResult.Handled:
+            case PunishmentExecutionFlags.Unhandled:
+            case PunishmentExecutionFlags.Failed:
+            case PunishmentExecutionFlags.NoHandler:
+            case PunishmentExecutionFlags.Handled:
             default:
                 break;
         }

@@ -1,53 +1,45 @@
-﻿using QqChannelRobotSdk.Models.Forums;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Events.EventArgs
+namespace QqGuildRobotSdk.WebSocket.Events.EventArgs
 {
-    public class ForumThreadEventArgs
+    public class ForumThreadEventArgs : EventArgBase
     {
-        public ForumThreadEventArgs(ServerPacketBase packetBase, ForumThread forumThread)
+        public ForumThreadEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, ForumThread forumThread) : base(client, packetBase)
         {
-            PacketBase = packetBase;
             ForumThread = forumThread;
         }
-
-        public ServerPacketBase PacketBase { get; set; }
+        
         public ForumThread ForumThread { get; private set; }
     }
 
-    public class ForumPostEventArgs
+    public class ForumPostEventArgs : EventArgBase
     {
-        public ForumPostEventArgs(ServerPacketBase packetBase, ForumPost forumPost)
+        public ForumPostEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, ForumPost forumPost) : base(client, packetBase)
         {
-            PacketBase = packetBase;
             ForumPost = forumPost;
         }
-
-        public ServerPacketBase PacketBase { get; set; }
+        
         public ForumPost ForumPost { get; private set; }
     }
     
-    public class ForumReplyEventArgs
+    public class ForumReplyEventArgs : EventArgBase
     {
-        public ForumReplyEventArgs(ServerPacketBase packetBase, ForumReply forumReply)
+        public ForumReplyEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, ForumReply forumReply) : base(client, packetBase)
         {
-            PacketBase = packetBase;
             ForumReply = forumReply;
         }
-
-        public ServerPacketBase PacketBase { get; set; }
+        
         public ForumReply ForumReply { get; private set; }
     }
     
-    public class ForumPublishAuditResultArgs
+    public class ForumPublishAuditResultArgs : EventArgBase
     {
-        public ForumPublishAuditResultArgs(ServerPacketBase packetBase, ForumPostAuditResult auditResult)
+        public ForumPublishAuditResultArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, ForumPostAuditResult auditResult) : base(client, packetBase)
         {
-            PacketBase = packetBase;
             AuditResult = auditResult;
         }
-
-        public ServerPacketBase PacketBase { get; set; }
+        
         public ForumPostAuditResult AuditResult { get; private set; }
     }
 }

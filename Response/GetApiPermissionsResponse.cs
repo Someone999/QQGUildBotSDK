@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using QqChannelRobotSdk.Models;
+﻿using Newtonsoft.Json;
+using QqGuildRobotSdk.Models;
 
-namespace QqChannelRobotSdk.Response
+namespace QqGuildRobotSdk.Response
 {
     public class GetApiPermissionsResponse
     {

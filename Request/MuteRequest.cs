@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Request;
+namespace QqGuildRobotSdk.Request;
 
 public class MuteRequest
 {

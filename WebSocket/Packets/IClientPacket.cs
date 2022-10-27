@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.WebSocket.Packets;
+﻿namespace QqGuildRobotSdk.WebSocket.Packets;
 
 public interface IClientPacket : IPacket
 {

@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
-using QqChannelRobotSdk.Tools;
-using QqChannelRobotSdk.WebSocket.Models;
-using QqChannelRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.Tools;
+using QqGuildRobotSdk.WebSocket.Packets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers;
 
 public static class PacketHandlerManager
 {

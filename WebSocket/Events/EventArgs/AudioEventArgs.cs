@@ -1,15 +1,13 @@
-﻿using QqChannelRobotSdk.Audio;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Audio;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Events.EventArgs;
+namespace QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-public class AudioEventArgs
+public class AudioEventArgs : EventArgBase
 {
-    public AudioEventArgs(ServerPacketBase packetBase, AudioAction audioAction)
+    public AudioEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, AudioAction audioAction) : base(client, packetBase)
     {
         AudioAction = audioAction;
-        PacketBase = packetBase;
     }
     public AudioAction AudioAction { get; }
-    public ServerPacketBase PacketBase { get; }
 }

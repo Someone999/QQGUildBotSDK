@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Tools;
+﻿namespace QqGuildRobotSdk.Tools;
 
 public static class ParameterChecker
 {

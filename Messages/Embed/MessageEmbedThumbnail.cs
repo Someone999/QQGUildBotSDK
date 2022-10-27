@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages.Embed;
+namespace QqGuildRobotSdk.Messages.Embed;
 
 public class MessageEmbedThumbnail
 {

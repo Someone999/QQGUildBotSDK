@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.Models.Channels;
+using QqGuildRobotSdk.Models;
+using QqGuildRobotSdk.Models.Channels;
 
-namespace QqChannelRobotSdk.Request;
+namespace QqGuildRobotSdk.Request;
 
 public class CreateChannelRequest
 {

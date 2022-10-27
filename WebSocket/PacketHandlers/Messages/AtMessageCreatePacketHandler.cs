@@ -1,12 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.Request;
-using QqChannelRobotSdk.Sdk;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Messages
 {
     public class AtMessageCreatePacketHandler : IPacketHandler
     {
@@ -18,7 +15,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Messages
                 return;
             }
 
-            client.EventManager.OnCreateAtMessage?.Invoke(client, new MessageCreateEventArgs(packet, msg));
+            client.EventManager.OnCreateAtMessage?.Invoke(client, new MessageCreateEventArgs(client, packet, msg));
 
         }
         public OperationCode Code => OperationCode.Dispatch;

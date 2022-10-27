@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.Messages.MessageReaction;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Messages.MessageReaction;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.MessageReactions
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Guild.MessageReactions
 {
     public class AddMessageReactionPacketHandler : IPacketHandler
     {
@@ -24,7 +18,7 @@ namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.MessageReactions
             client.EventManager
                 .GuildMessageReactionEvents
                 .OnCreateMessageReaction?
-                .Invoke(client, new MessageReactionEventArgs(packet, messageReaction));
+                .Invoke(client, new MessageReactionEventArgs(client, packet, messageReaction));
         }
 
         public OperationCode Code => OperationCode.Dispatch;

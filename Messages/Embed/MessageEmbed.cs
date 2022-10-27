@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages.Embed;
+namespace QqGuildRobotSdk.Messages.Embed;
 
 public class MessageEmbed
 {
@@ -10,10 +10,10 @@ public class MessageEmbed
     [JsonProperty("prompt")]
     public string Prompt { get; set; } = "";
 
-    [JsonProperty("thumbnail")]
+    [JsonProperty("thumbnail", NullValueHandling = NullValueHandling.Ignore)]
     public MessageEmbedThumbnail? Thumbnail { get; set; }
     
-    [JsonProperty("fields")]
-    public MessageEmbedField? Fields { get; set; }
+    [JsonProperty("fields", NullValueHandling = NullValueHandling.Ignore)]
+    public List<MessageEmbedField>? Fields { get; set; }
 
 }

@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Messages.Keyboard;
+﻿namespace QqGuildRobotSdk.Messages.Keyboard;
 
 public enum ActionType
 {

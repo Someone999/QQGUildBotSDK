@@ -1,9 +1,9 @@
-﻿using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.DirectMessages;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Guild.DirectMessages;
 
 public class RemoveDirectMessagePacketHandler : IPacketHandler
 {
@@ -15,7 +15,7 @@ public class RemoveDirectMessagePacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.GuildDirectMessageEvents.OnDirectMessageDelete?.Invoke(client, new MessageDeleteEventArgs(packet, msg));
+        client.EventManager.GuildDirectMessageEvents.OnDirectMessageDelete?.Invoke(client, new MessageDeleteEventArgs(client, packet, msg));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string SubEventType => "DIRECT_MESSAGE_DELETE";

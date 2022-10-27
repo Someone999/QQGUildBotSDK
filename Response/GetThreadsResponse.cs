@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using QqChannelRobotSdk.Models.Forums;
+﻿using Newtonsoft.Json;
+using QqGuildRobotSdk.Models.Forums;
 
-namespace QqChannelRobotSdk.Response
+namespace QqGuildRobotSdk.Response
 {
     public class GetThreadsResponse
     {

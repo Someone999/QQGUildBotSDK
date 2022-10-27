@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Models;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Models;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.Members;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Guild.Members;
 
 public class GuildJoinedMemberPacketHandler : IPacketHandler
 {
@@ -20,7 +15,7 @@ public class GuildJoinedMemberPacketHandler : IPacketHandler
             return;
         }
             
-        client.EventManager.GuildMemberEvents.OnMemberAdd?.Invoke(client, new GuildMemberEventArgs(packet, member));
+        client.EventManager.GuildMemberEvents.OnMemberAdd?.Invoke(client, new GuildMemberEventArgs(client, packet, member));
     }
 
     public OperationCode Code => OperationCode.Dispatch;

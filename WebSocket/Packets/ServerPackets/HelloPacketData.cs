@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+namespace QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
 public class HelloPacketData
 {

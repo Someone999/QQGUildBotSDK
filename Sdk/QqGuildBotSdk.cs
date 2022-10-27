@@ -1,25 +1,23 @@
-﻿using System.Net;
-using System.Reflection.Emit;
-using System.Xml.Schema;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using QqChannelRobotSdk.Announces;
-using QqChannelRobotSdk.Audio;
-using QqChannelRobotSdk.Authenticate;
-using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.Messages.Ark;
-using QqChannelRobotSdk.Messages.Markdown;
-using QqChannelRobotSdk.Messages.MessageReaction;
-using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.Models.Channels;
-using QqChannelRobotSdk.Models.Forums;
-using QqChannelRobotSdk.Models.Members;
-using QqChannelRobotSdk.Models.Messages;
-using QqChannelRobotSdk.Request;
-using QqChannelRobotSdk.Response;
-using QqChannelRobotSdk.Tools;
+using QqGuildRobotSdk.Announces;
+using QqGuildRobotSdk.Audio;
+using QqGuildRobotSdk.Authenticate;
+using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.Messages.Ark;
+using QqGuildRobotSdk.Messages.Keyboard;
+using QqGuildRobotSdk.Messages.Markdown;
+using QqGuildRobotSdk.Messages.MessageReaction;
+using QqGuildRobotSdk.Models;
+using QqGuildRobotSdk.Models.Channels;
+using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.Models.Members;
+using QqGuildRobotSdk.Models.Messages;
+using QqGuildRobotSdk.Request;
+using QqGuildRobotSdk.Response;
+using QqGuildRobotSdk.Tools;
 
-namespace QqChannelRobotSdk.Sdk;
+namespace QqGuildRobotSdk.Sdk;
 
 public class QqGuildBotSdk
 {
@@ -29,7 +27,7 @@ public class QqGuildBotSdk
     }
     public static QqGuildBotSdk GetSdk(BotIdentifier identifier)
     {
-        return QqChannelBotSdkManager.GetInstance().Get(identifier);
+        return QqGuildBotSdkManager.GetInstance().Get(identifier);
     }
     
     public bool UseSandboxEnvironment { get; set; }
@@ -62,7 +60,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Guild?, GeneralErrorResponse>> GetGuildInfoAsync(string guildId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel(guildId);
+        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var result = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<Guild?>(result);
@@ -143,7 +141,7 @@ public class QqGuildBotSdk
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         var ret = await ResponseTools.GetReturnValueAsync<Member[]>(rslt);
         Member[] retArray = Array.Empty<Member>();
-        if (ret.Succsee)
+        if (ret.Success)
         {
             retArray = ret.ResponseObject?.DistinctBy(m => m.User.Id).ToArray() ?? Array.Empty<Member>();
         }
@@ -171,19 +169,18 @@ public class QqGuildBotSdk
         return await GetRoleMembersAsync(guild.Id, roleId, startIndex, limit);
     }
     
-    public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(string guildId, string userId, int? startIndex = null, int? limit = null)
+    public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(string guildId, string userId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
         urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("members").AddSubLevel(userId.ToString());
-        urlBuilder.AddArgumentWhenNotNull("start_index", startIndex).AddArgumentWhenNotNull("limit", limit);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<Member?>(rslt);
     }
 
-    public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(Guild guild, string userId, int? startIndex = null, int? limit = null)
+    public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(Guild guild, string userId)
     {
-        return await GetMemberInfoAsync(guild.Id, userId, startIndex, limit);
+        return await GetMemberInfoAsync(guild.Id, userId);
     }
     
     public async Task<ApiResponse<Member?, GeneralErrorResponse>> RemoveMemberAsync(string guildId, string userId, bool? addToBlackList = null, int? discardMsgInDays = null)
@@ -377,7 +374,7 @@ public class QqGuildBotSdk
     {
         return await SendMessageAsync(channel.Id, request);
     }
-
+    
     public async Task<GeneralErrorResponse?> DiscardMessageAsync(string channelId, string messageId, bool? hideTip = null)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
@@ -444,7 +441,7 @@ public class QqGuildBotSdk
         return await SendReferenceMessageAsync(channel.Id, request);
     }
 
-    public async Task<ApiResponse<MessageSetting?, GeneralErrorResponse>> GetMessageSendSetting(string guildId)
+    public async Task<ApiResponse<MessageSetting?, GeneralErrorResponse>> GetMessageSendSettingAsync(string guildId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
         urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("message").AddSubLevel("setting");
@@ -453,9 +450,9 @@ public class QqGuildBotSdk
         return await ResponseTools.GetReturnValueAsync<MessageSetting>(rslt);
     }
 
-    public async Task<ApiResponse<MessageSetting?, GeneralErrorResponse>> GetMessageSendSetting(Guild guild)
+    public async Task<ApiResponse<MessageSetting?, GeneralErrorResponse>> GetMessageSendSettingAsync(Guild guild)
     {
-        return await GetMessageSendSetting(guild.Id);
+        return await GetMessageSendSettingAsync(guild.Id);
     }
     
     public async Task<ApiResponse<DirectMessageSubject?, GeneralErrorResponse>> CreateDirectMessageSubjectSessionAsync
@@ -835,7 +832,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> DeleteThreadInfoAsync(Channel channel, ForumThread forumThread) =>
         await DeleteThreadInfoAsync(channel.Id, forumThread.ForumThreadInfo.ThreadId);
 
-    public async Task<ApiResponse<GetApiPermissionsResponse?, GeneralErrorResponse>> GetGuildApiPermissions(
+    public async Task<ApiResponse<GetApiPermissionsResponse?, GeneralErrorResponse>> GetGuildApiPermissionsAsync(
         string guildId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
@@ -845,10 +842,10 @@ public class QqGuildBotSdk
         return await ResponseTools.GetReturnValueAsync<GetApiPermissionsResponse>(rslt);
     }
 
-    public async Task<ApiResponse<GetApiPermissionsResponse?, GeneralErrorResponse>> GetGuildApiPermissions(Guild guild) => 
-        await GetGuildApiPermissions(guild.Id);
+    public async Task<ApiResponse<GetApiPermissionsResponse?, GeneralErrorResponse>> GetGuildApiPermissionsAsync(Guild guild) => 
+        await GetGuildApiPermissionsAsync(guild.Id);
 
-    public async Task<ApiResponse<ApiPermissionDemand?, GeneralErrorResponse>> CreateApiPermissionRequestLink
+    public async Task<ApiResponse<ApiPermissionDemand?, GeneralErrorResponse>> CreateApiPermissionRequestLinkAsync
         (string guildId, CreateApiAuthenticateRequestLinkRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
@@ -856,11 +853,11 @@ public class QqGuildBotSdk
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         string content = JsonConvert.SerializeObject(request);
         StringContent sendContent = new StringContent(content, null, "application/json");
-        var rslt = await httpClient.PutAsync(urlBuilder.Build(), sendContent);
+        var rslt = await httpClient.PostAsync(urlBuilder.Build(), sendContent);
         return await ResponseTools.GetReturnValueAsync<ApiPermissionDemand>(rslt);
     }
 
-    public async Task<ApiResponse<ApiPermissionDemand?, GeneralErrorResponse>> CreateApiPermissionRequestLink(
+    public async Task<ApiResponse<ApiPermissionDemand?, GeneralErrorResponse>> CreateApiPermissionRequestLinkAsync(
         Guild guild, CreateApiAuthenticateRequestLinkRequest request)
-        => await CreateApiPermissionRequestLink(guild.Id, request);
+        => await CreateApiPermissionRequestLinkAsync(guild.Id, request);
 }

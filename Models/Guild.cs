@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.Tools;
 
-namespace QqChannelRobotSdk.Models;
+namespace QqGuildRobotSdk.Models;
 
 public class Guild
 {

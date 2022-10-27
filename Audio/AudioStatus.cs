@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Audio;
+﻿namespace QqGuildRobotSdk.Audio;
 
 public enum AudioStatus
 {

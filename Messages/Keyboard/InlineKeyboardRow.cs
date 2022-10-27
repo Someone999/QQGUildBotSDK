@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages.Keyboard;
+namespace QqGuildRobotSdk.Messages.Keyboard;
 
 public class InlineKeyboardRow
 {

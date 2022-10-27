@@ -1,15 +1,13 @@
-﻿using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Events.EventArgs;
+namespace QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-public class MessageDeleteEventArgs
+public class MessageDeleteEventArgs : EventArgBase
 {
-    public MessageDeleteEventArgs(ServerPacketBase packetBase, MessageDelete messageDelete)
+    public MessageDeleteEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, MessageDelete messageDelete) : base(client, packetBase)
     {
-        PacketBase = packetBase;
         MessageDelete = messageDelete;
     }
-    public ServerPacketBase PacketBase { get; internal set; }
     public MessageDelete MessageDelete { get; internal set; }
 }

@@ -1,9 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.Tools;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
+﻿using QqGuildRobotSdk.Models;
+using QqGuildRobotSdk.Tools;
 
-namespace QqChannelRobotSdk.Punishments;
+namespace QqGuildRobotSdk.Punishments;
 
 public class UserPunishmentManager
 {
@@ -15,7 +13,7 @@ public class UserPunishmentManager
     
     public Dictionary<User, UserPunishmentInfo> UserPunishments { get; } = new();
 
-    public PunishmentExecutionResult Punish(PunishmentParameters parameters)
+    public PunishmentExecutionFlags Punish(PunishmentParameters parameters)
     {
         var user = parameters.EventArgs.Message.Author;
         UserPunishmentInfo? punishmentInfo;
@@ -28,14 +26,22 @@ public class UserPunishmentManager
             punishmentInfo = UserPunishments[user];
         }
 
+        if (parameters.Punishment == null)
+        {
+            return AutoPunish(parameters);
+        }
+
         int violationCount = punishmentInfo.AppliedPunishment.Count;
+        parameters.ViolationCount = parameters.ViolationCount == -1
+            ? violationCount
+            : parameters.ViolationCount;
         var rslt = punishmentInfo.ApplyPunishment(parameters);
         PunishResultHandler.Handle(parameters.Punishment, rslt, parameters.EventArgs);
         return rslt;
     }
     
     
-    public PunishmentExecutionResult Punish<T>(PunishmentParameters parameters) where T: IPunishment
+    public PunishmentExecutionFlags Punish<T>(PunishmentParameters parameters) where T: IPunishment
     {
         var user = parameters.EventArgs.Message.Author;
         UserPunishmentInfo? punishmentInfo;
@@ -50,7 +56,7 @@ public class UserPunishmentManager
         var punishment = PunishmentManager.GetPunishment<T>();
         if (punishment == null)
         {
-            return PunishmentExecutionResult.NoHandler;
+            return PunishmentExecutionFlags.NoHandler;
         }
         
         parameters.ViolationCount = parameters.ViolationCount == -1 ? punishmentInfo.AppliedPunishment.Count : parameters.ViolationCount;
@@ -60,7 +66,7 @@ public class UserPunishmentManager
         return rslt;
     }
 
-    public PunishmentExecutionResult AutoPunish(PunishmentParameters parameters)
+    PunishmentExecutionFlags AutoPunish(PunishmentParameters parameters)
     {
         var user = parameters.EventArgs.Message.Author;
         UserPunishmentInfo? punishmentInfo;
@@ -81,10 +87,10 @@ public class UserPunishmentManager
             orderby p.Priority descending select p;
 
         IPunishment? punishment = punishments.FirstOrDefault();
-        var rslt = punishment?.Punish(parameters) ?? PunishmentExecutionResult.NoHandler;
+        var rslt = punishment?.Punish(parameters) ?? PunishmentExecutionFlags.NoHandler;
         if (punishment == null)
         {
-            return PunishmentExecutionResult.NoHandler;
+            return PunishmentExecutionFlags.NoHandler;
         }
         
         PunishResultHandler.Handle(punishment, rslt, parameters.EventArgs);

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Models.Messages;
+namespace QqGuildRobotSdk.Models.Messages;
 
 public class DirectMessageSubject
 {

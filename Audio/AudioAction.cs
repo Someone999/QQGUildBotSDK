@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Audio;
+namespace QqGuildRobotSdk.Audio;
 
 public class AudioAction
 {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.WebSocket.Models;
+namespace QqGuildRobotSdk.WebSocket.Models;
 
 public class WebSocketUser
 {

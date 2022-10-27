@@ -1,15 +1,13 @@
-﻿using QqChannelRobotSdk.WebSocket.Models;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.WebSocket.Models;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Events.EventArgs;
+namespace QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-public class GuildEventArgs
+public class GuildEventArgs : EventArgBase
 {
-    public GuildEventArgs(ServerPacketBase packetBase, WebSocketGuild guild)
+    public GuildEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, WebSocketGuild guild) : base(client, packetBase)
     {
-        PacketBase = packetBase;
         Guild = guild;
     }
-    public ServerPacketBase PacketBase { get; }
     public WebSocketGuild Guild { get; }
 }

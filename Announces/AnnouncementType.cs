@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Announces;
+﻿namespace QqGuildRobotSdk.Announces;
 
 public enum AnnouncementType
 {

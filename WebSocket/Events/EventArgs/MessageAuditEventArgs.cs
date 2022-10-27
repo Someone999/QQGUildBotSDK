@@ -1,16 +1,14 @@
-﻿using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.Models.Messages;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Models.Messages;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Events.EventArgs;
+namespace QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-public class MessageAuditEventArgs
+public class MessageAuditEventArgs : EventArgBase
 {
-    public MessageAuditEventArgs(ServerPacketBase packetBase, MessageAudited messageAudited)
+    public MessageAuditEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, MessageAudited messageAudited) : base(client, packetBase)
     {
-        PacketBase = packetBase;
         MessageAudited = messageAudited;
     }
-    public ServerPacketBase PacketBase { get; }
+    
     public MessageAudited MessageAudited { get; }
 }

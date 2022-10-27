@@ -1,6 +1,6 @@
-﻿using QqChannelRobotSdk.WebSocket.Events.EventArgs;
+﻿using QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-namespace QqChannelRobotSdk.WebSocket.Events.ObsoletedInterfaces;
+namespace QqGuildRobotSdk.WebSocket.Events.ObsoletedInterfaces;
 
 public interface IInteractiveEventHandler : IEventHandler<InteractionEventArgs>
 {

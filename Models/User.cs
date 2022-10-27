@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Models;
+namespace QqGuildRobotSdk.Models;
 
 public class User : IEqualityComparer<User>
 {

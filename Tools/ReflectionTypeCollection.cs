@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using QqChannelRobotSdk.WebSocket.PacketHandlers.Server;
+using QqGuildRobotSdk.WebSocket.PacketHandlers.Server;
 
-namespace QqChannelRobotSdk.Tools;
+namespace QqGuildRobotSdk.Tools;
 
 public class ReflectionTypeCollection : IEnumerable<Type>
 {

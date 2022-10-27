@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.WebSocket.Packets.ClientPackets;
+namespace QqGuildRobotSdk.WebSocket.Packets.ClientPackets;
 
 public class AuthenticatePacket : IClientPacket<AuthenticatePacketData>
 {

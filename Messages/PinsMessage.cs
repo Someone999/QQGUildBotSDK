@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages;
+namespace QqGuildRobotSdk.Messages;
 
 public class PinsMessage
 {

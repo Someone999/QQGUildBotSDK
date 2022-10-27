@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace QqChannelRobotSdk.Tools;
+namespace QqGuildRobotSdk.Tools;
 
 public class UrlBuilder
 {

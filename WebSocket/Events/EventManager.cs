@@ -1,10 +1,6 @@
-﻿using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Models;
-using QqChannelRobotSdk.WebSocket.PacketHandlers.MessageAudits;
+﻿using QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-namespace QqChannelRobotSdk.WebSocket.Events;
+namespace QqGuildRobotSdk.WebSocket.Events;
 
 public class EventManager
 {

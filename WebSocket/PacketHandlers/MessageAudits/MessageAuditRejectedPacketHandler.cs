@@ -1,10 +1,9 @@
-﻿using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.Models.Messages;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Models.Messages;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.MessageAudits;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.MessageAudits;
 
 public class MessageAuditRejectedPacketHandler : IPacketHandler
 {
@@ -16,7 +15,7 @@ public class MessageAuditRejectedPacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.MessageAuditEvents.OnMessageAuditRejected?.Invoke(client, new MessageAuditEventArgs(packet, msg));
+        client.EventManager.MessageAuditEvents.OnMessageAuditRejected?.Invoke(client, new MessageAuditEventArgs(client, packet, msg));
     }
 
     public OperationCode Code => OperationCode.Dispatch;

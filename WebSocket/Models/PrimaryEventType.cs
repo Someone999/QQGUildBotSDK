@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.WebSocket.Models;
+﻿namespace QqGuildRobotSdk.WebSocket.Models;
 
 [Flags]
 public enum PrimaryEventType

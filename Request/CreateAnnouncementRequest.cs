@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.Announces;
+using QqGuildRobotSdk.Announces;
 
-namespace QqChannelRobotSdk.Request;
+namespace QqGuildRobotSdk.Request;
 
 public class CreateAnnouncementRequest
 {

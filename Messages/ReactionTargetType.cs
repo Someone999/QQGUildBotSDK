@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Messages;
+﻿namespace QqGuildRobotSdk.Messages;
 
 public enum ReactionTargetType
 {

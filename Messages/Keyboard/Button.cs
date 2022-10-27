@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages.Keyboard;
+namespace QqGuildRobotSdk.Messages.Keyboard;
 
 public class Button
 {
@@ -9,4 +9,7 @@ public class Button
 
     [JsonProperty("render_data")]
     public RenderData RenderData { get; set; } = new RenderData();
+
+    [JsonProperty("action")]
+    public Action Action { get; set; } = new Action();
 }

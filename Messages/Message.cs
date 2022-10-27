@@ -1,12 +1,12 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using QqChannelRobotSdk.Messages.Ark;
-using QqChannelRobotSdk.Messages.Embed;
-using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.Models.Members;
+using QqGuildRobotSdk.Messages.Ark;
+using QqGuildRobotSdk.Messages.Embed;
+using QqGuildRobotSdk.Models;
+using QqGuildRobotSdk.Models.Members;
 
-namespace QqChannelRobotSdk.Messages;
+namespace QqGuildRobotSdk.Messages;
 
 public class Message
 {

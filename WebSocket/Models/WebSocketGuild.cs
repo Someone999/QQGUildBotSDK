@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.Models;
+using QqGuildRobotSdk.Models;
 
-namespace QqChannelRobotSdk.WebSocket.Models;
+namespace QqGuildRobotSdk.WebSocket.Models;
 
 public class WebSocketGuild : Guild
 {

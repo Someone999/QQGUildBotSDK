@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
+﻿using QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-namespace QqChannelRobotSdk.WebSocket.Events
+namespace QqGuildRobotSdk.WebSocket.Events
 {
     public class ForumThreadEvents
     {

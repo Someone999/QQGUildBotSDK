@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages.Keyboard;
+namespace QqGuildRobotSdk.Messages.Keyboard;
 
 public class MessageKeyboard
 {
-    [JsonProperty("id")]
-    public string TemplateId { get; set; } = "";
-    
-    
+    [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+    public string? TemplateId { get; set; } = "";
+
+    [JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
+    public InlineKeyboard? Content { get; set; }
 }

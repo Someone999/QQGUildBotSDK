@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Packets;
+namespace QqGuildRobotSdk.WebSocket.Packets;
 
 public class PacketManager
 {
@@ -10,15 +9,24 @@ public class PacketManager
     public IServerPacket? LastHasSequencePacket => Packets.LastOrDefault(p => p.Sequence != null);
     public List<IServerPacket> Packets { get; internal set; } = new List<IServerPacket>();
 
-    public ReadyPacketData? LastReadyPacket
+    public ReadyPacketData? LastReadyPacketData
     {
         get
         {
-            var packet =
-                Packets.LastOrDefault(p => p.OperationCode == OperationCode.Dispatch && p.SubEventType == "READY");
-            return packet is not ServerPacketBase serverPacketBase
-                ? null
-                : serverPacketBase.Data?.ToObject<ReadyPacketData>();
+            try
+            {
+                var packet =
+                    Packets.LastOrDefault(p => p.OperationCode == OperationCode.Dispatch && p.SubEventType == "READY");
+                return packet is not ServerPacketBase serverPacketBase
+                    ? null
+                    : serverPacketBase.Data?.ToObject<ReadyPacketData>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+            
 
         }
     }

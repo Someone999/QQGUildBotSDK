@@ -1,17 +1,17 @@
-﻿using QqChannelRobotSdk.Authenticate;
+﻿using QqGuildRobotSdk.Authenticate;
 
-namespace QqChannelRobotSdk.Sdk;
+namespace QqGuildRobotSdk.Sdk;
 
-class QqChannelBotSdkManager
+class QqGuildBotSdkManager
 {
-    private QqChannelBotSdkManager()
+    private QqGuildBotSdkManager()
     {
     }
 
     private static readonly object StaticLocker = new object();
-    private static QqChannelBotSdkManager? _instance;
+    private static QqGuildBotSdkManager? _instance;
 
-    public static QqChannelBotSdkManager GetInstance()
+    public static QqGuildBotSdkManager GetInstance()
     {
         if (_instance != null)
         {
@@ -20,7 +20,7 @@ class QqChannelBotSdkManager
 
         lock (StaticLocker)
         {
-            _instance ??= new QqChannelBotSdkManager();
+            _instance ??= new QqGuildBotSdkManager();
         }
 
         return _instance;

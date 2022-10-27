@@ -1,9 +1,9 @@
-﻿using QqChannelRobotSdk.Models.Forums;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Forum.Post;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Forum.Post;
 
 public class PostCreatePacketHandler : IPacketHandler
 {
@@ -16,7 +16,7 @@ public class PostCreatePacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.ForumEvents.ForumPostEvents.OnForumPostCreate?.Invoke(client, new ForumPostEventArgs(packet, forumThread));
+        client.EventManager.ForumEvents.ForumPostEvents.OnForumPostCreate?.Invoke(client, new ForumPostEventArgs(client, packet, forumThread));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "FORUM_POST_CREATE";

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.Models;
+using QqGuildRobotSdk.Models;
 
-namespace QqChannelRobotSdk.Request;
+namespace QqGuildRobotSdk.Request;
 
 public class ModifyChannelPropertyRequest
 {

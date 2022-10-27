@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.WebSocket.Events.ObsoletedInterfaces;
+﻿namespace QqGuildRobotSdk.WebSocket.Events.ObsoletedInterfaces;
 
 public interface IEventHandler<in TEventArg>
 {

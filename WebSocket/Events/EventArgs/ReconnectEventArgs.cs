@@ -1,8 +1,10 @@
-﻿using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Events.EventArgs;
+namespace QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-public class ReconnectEventArgs
+public class ReconnectEventArgs : EventArgBase
 {
-    public ServerPacketBase? PacketBase { get; internal set; }
+    public ReconnectEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase) : base(client, packetBase)
+    {
+    }
 }

@@ -1,51 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Models
+namespace QqGuildRobotSdk.Models
 {
     public class ApiPermission
     {
         [JsonProperty("path")]
-        public string Path { get; private set; } = "";
+        public string Path { get; set; } = "";
 
         [JsonProperty("method")]
-        public string Method { get; private set; } = "";
+        public string Method { get; set; } = "";
 
         [JsonProperty("desc")]
-        public string Description { get; private set; } = "";
+        public string Description { get; set; } = "";
 
         [JsonProperty("auth_status")]
-        public bool AuthenticateStatus { get; private set; } 
+        public bool AuthenticateStatus { get; set; }
+
+        public override string ToString() => $"{Description} 已授权: {(AuthenticateStatus ? "是" : "否")}";
+
     }
 
     public class ApiPermissionDemand
     {
         [JsonProperty("guild_id")]
-        public string GuildId { get; private set; } = "";
+        public string GuildId { get; set; } = "";
 
         [JsonProperty("channel_id")]
-        public string ChannelId { get; private set; } = "";
+        public string ChannelId { get; set; } = "";
 
         [JsonProperty("api_identify")]
-        public ApiPermissionDemandIdentify Identify { get; private set; } = new ApiPermissionDemandIdentify();
+        public ApiPermissionDemandIdentify Identify { get; set; } = new ApiPermissionDemandIdentify();
 
         [JsonProperty("title")]
-        public string Title { get; private set; } = "";
+        public string Title { get; set; } = "";
 
         [JsonProperty("desc")]
-        public string Description { get; private set; } = "";
+        public string Description { get; set; } = "";
     }
 
     public class ApiPermissionDemandIdentify
     {
         [JsonProperty("path")]
-        public string Path { get; private set; } = "";
+        public string Path { get; set; } = "";
 
         [JsonProperty("method")]
-        public string Method { get; private set; } = "";
+        public string Method { get; set; } = "";
     }
 }

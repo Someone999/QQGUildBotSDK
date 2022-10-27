@@ -1,9 +1,9 @@
-﻿using QqChannelRobotSdk.Models.Forums;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Forum;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Forum;
 
 public class ForumThreadDeletePacketHandler : IPacketHandler
 {
@@ -15,7 +15,7 @@ public class ForumThreadDeletePacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.ForumEvents.ForumThreadEvents.OnForumThreadDelete?.Invoke(client, new ForumThreadEventArgs(packet, forumThread));
+        client.EventManager.ForumEvents.ForumThreadEvents.OnForumThreadDelete?.Invoke(client, new ForumThreadEventArgs(client, packet, forumThread));
     }
 
     public OperationCode Code => OperationCode.Dispatch;

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Authenticate;
+namespace QqGuildRobotSdk.Authenticate;
 
 public class BotIdentifier : IEqualityComparer<BotIdentifier>
 {

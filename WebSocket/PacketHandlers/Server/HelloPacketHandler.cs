@@ -1,32 +1,37 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ClientPackets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ClientPackets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Server;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Server;
 
 public class HelloPacketHandler : IPacketHandler
 {
 
+    public static object Locker { get; } = new();
     public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
-        //AdditionData = packet.Data?.ToObject<HelloPacketData>();
-        AuthenticatePacket authenticatePacket = new AuthenticatePacket();
-        var identifier = client.Identifier;
-        AuthenticatePacketData data = new AuthenticatePacketData
+        lock (Locker)
         {
-            Token = $"Bot {identifier.BotAppId}.{identifier.BotToken}",
-            Shard = Shard.OneShard,
-            RegisteredEvents = client.RegisteredEvent
-        };
-        authenticatePacket.Data = data;
+            AuthenticatePacket authenticatePacket = new AuthenticatePacket();
+            var identifier = client.Identifier;
+            var createParameter = client.ClientInfo.CreateParameters;
+            AuthenticatePacketData data = new AuthenticatePacketData
+            {
+                Token = $"Bot {identifier.BotAppId}.{identifier.BotToken}",
+                Shard = new Shard(client.ClientInfo.CurrentShard, createParameter.MaxShardCount ?? 1),
+                RegisteredEvents = createParameter.RegisteredEvents
+            };
         
-        if (!client.Connected)
-        {
-            return;
+            authenticatePacket.Data = data;
+        
+            if (!client.Connected)
+            {
+                return;
+            }
+        
+            client.WebSocket.Send(JsonConvert.SerializeObject(authenticatePacket));
         }
-        
-        client.WebSocket.Send(JsonConvert.SerializeObject(authenticatePacket));
     }
     public OperationCode Code => OperationCode.Hello;
     public string? SubEventType => null;

@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.Models;
-using QqChannelRobotSdk.Models.Members;
+using QqGuildRobotSdk.Models.Members;
 
-namespace QqChannelRobotSdk.Response;
+namespace QqGuildRobotSdk.Response;
 
 public class RoleMembersResponse
 {

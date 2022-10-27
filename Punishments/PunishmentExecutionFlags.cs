@@ -1,7 +1,7 @@
-﻿namespace QqChannelRobotSdk.Punishments;
+﻿namespace QqGuildRobotSdk.Punishments;
 
 [Flags]
-public enum PunishmentExecutionResult
+public enum PunishmentExecutionFlags
 {
     Unhandled = 1,
     Failed = Unhandled | 2,

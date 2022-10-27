@@ -1,7 +1,4 @@
-﻿using QqChannelRobotSdk.WebSocket;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-
-namespace QqChannelRobotSdk.Punishments;
+﻿namespace QqGuildRobotSdk.Punishments;
 
 public interface IPunishment
 {
@@ -9,5 +6,5 @@ public interface IPunishment
     int MinViolationCount { get; set; }
     
     int Priority { get; set; }
-    PunishmentExecutionResult Punish(PunishmentParameters parameters);
+    PunishmentExecutionFlags Punish(PunishmentParameters parameters);
 }

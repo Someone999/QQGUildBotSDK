@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Authenticate;
+﻿namespace QqGuildRobotSdk.Authenticate;
 
 public enum BotAuthenticateType
 {

@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
-using QqChannelRobotSdk.Tools;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.Tools;
 
-namespace QqChannelRobotSdk.Punishments;
+namespace QqGuildRobotSdk.Punishments;
 
 public static class PunishmentManager
 {

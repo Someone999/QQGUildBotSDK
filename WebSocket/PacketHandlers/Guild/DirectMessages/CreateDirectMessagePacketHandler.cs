@@ -1,9 +1,9 @@
-﻿using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Guild.DirectMessages;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Guild.DirectMessages;
 
 public class CreateDirectMessagePacketHandler : IPacketHandler
 {
@@ -15,7 +15,7 @@ public class CreateDirectMessagePacketHandler : IPacketHandler
             return;
         }
 
-        client.EventManager.GuildDirectMessageEvents.OnDirectMessageCreate?.Invoke(client, new MessageCreateEventArgs(packet, msg));
+        client.EventManager.GuildDirectMessageEvents.OnDirectMessageCreate?.Invoke(client, new MessageCreateEventArgs(client, packet, msg));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string SubEventType => "DIRECT_MESSAGE_CREATE";

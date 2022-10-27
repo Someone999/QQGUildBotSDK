@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Models;
+﻿namespace QqGuildRobotSdk.Models;
 
 public enum ApplicationType
 {

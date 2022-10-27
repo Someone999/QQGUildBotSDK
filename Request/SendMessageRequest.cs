@@ -1,36 +1,38 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.Messages.Ark;
-using QqChannelRobotSdk.Messages.Embed;
-using QqChannelRobotSdk.Messages.Markdown;
+using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.Messages.Ark;
+using QqGuildRobotSdk.Messages.Embed;
+using QqGuildRobotSdk.Messages.Keyboard;
+using QqGuildRobotSdk.Messages.Markdown;
 
-namespace QqChannelRobotSdk.Request;
+namespace QqGuildRobotSdk.Request;
 
 public class SendMessageRequest
 {
-    [JsonProperty("content")]
+    [JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
     public string? Content { get; set; }
 
-    [JsonProperty("embed")]
+    [JsonProperty("embed", NullValueHandling = NullValueHandling.Ignore)]
     public MessageEmbed? Embed { get; set; }
     
-    [JsonProperty("ark")]
+    [JsonProperty("ark", NullValueHandling = NullValueHandling.Ignore)]
     public MessageArk? Ark { get; set; } 
     
-    [JsonProperty("message_reference")]
+    [JsonProperty("message_reference", NullValueHandling = NullValueHandling.Ignore)]
     public MessageReference? Reference { get; set; }
     
-    [JsonProperty("image")]
+    [JsonProperty("image", NullValueHandling = NullValueHandling.Ignore)]
     public MessageReference? Image { get; set; }
     
-    [JsonProperty("msg_id")]
+    [JsonProperty("msg_id", NullValueHandling = NullValueHandling.Ignore)]
     public string? MessageIdToReply { get; set; }
     
-    [JsonProperty("event_id")]
+    [JsonProperty("event_id", NullValueHandling = NullValueHandling.Ignore)]
     public string? EventIdToReply { get; set; }
     
-    [JsonProperty("markdown")]
+    [JsonProperty("markdown", NullValueHandling = NullValueHandling.Ignore)]
     public MessageMarkdown? Markdown { get; set; }
     
-    
+    [JsonProperty("keyboard", NullValueHandling = NullValueHandling.Ignore)]
+    public MessageKeyboard? Keyboard { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Models.Channels;
+﻿namespace QqGuildRobotSdk.Models.Channels;
 
 public enum ChannelSubType
 {

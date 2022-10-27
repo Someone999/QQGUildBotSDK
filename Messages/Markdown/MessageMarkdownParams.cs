@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages.Markdown;
+namespace QqGuildRobotSdk.Messages.Markdown;
 
 public class MessageMarkdownParams
 {

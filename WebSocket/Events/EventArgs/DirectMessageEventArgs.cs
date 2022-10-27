@@ -1,18 +1,18 @@
-﻿using QqChannelRobotSdk.Messages;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Events.EventArgs;
+namespace QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
 public class DirectCreateMessageEventArgs : MessageCreateEventArgs
 {
-    public DirectCreateMessageEventArgs(ServerPacketBase packetBase, Message message) : base(packetBase, message)
+    public DirectCreateMessageEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, Message message) : base(client, packetBase, message)
     {
     }
 }
 
 public class DirectDeleteMessageEventArgs : MessageDeleteEventArgs
 {
-    public DirectDeleteMessageEventArgs(ServerPacketBase packetBase, MessageDelete messageDelete) : base(packetBase, messageDelete)
+    public DirectDeleteMessageEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase, MessageDelete messageDelete) : base(client, packetBase, messageDelete)
     {
     }
 }

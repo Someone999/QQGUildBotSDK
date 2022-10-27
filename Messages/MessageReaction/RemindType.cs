@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.Messages.MessageReaction;
+﻿namespace QqGuildRobotSdk.Messages.MessageReaction;
 
 public enum RemindType
 {

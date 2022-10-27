@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Models.Members;
+namespace QqGuildRobotSdk.Models.Members;
 
 public class MemberWithGuildId : Member
 {

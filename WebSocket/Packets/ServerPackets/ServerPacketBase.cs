@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+namespace QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
 public class ServerPacketBase : IServerPacket<JToken>
 {

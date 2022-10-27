@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Announces;
+namespace QqGuildRobotSdk.Announces;
 
 public class RecommendChannel
 {

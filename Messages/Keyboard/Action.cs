@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages.Keyboard;
+namespace QqGuildRobotSdk.Messages.Keyboard;
 
 public class Action
 {
@@ -15,7 +15,7 @@ public class Action
 
     [JsonProperty("data")]
     public string Data { get; set; } = "";
-    
+
     [JsonProperty("at_bot_show_channel_list")]
-    public bool AtBotShowChannelList { get; set; }
+    public bool AtBotShowChannelList { get; set; } = true;
 }

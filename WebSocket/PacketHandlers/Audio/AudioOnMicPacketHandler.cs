@@ -1,9 +1,9 @@
-﻿using QqChannelRobotSdk.Audio;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Audio;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Audio;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Audio;
 
 public class AudioOnMicPacketHandler : IPacketHandler
 {
@@ -15,7 +15,7 @@ public class AudioOnMicPacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.AudioEvents.OnAudioStart?.Invoke(client, new AudioEventArgs(packet, audioAction));
+        client.EventManager.AudioEvents.OnAudioStart?.Invoke(client, new AudioEventArgs(client, packet, audioAction));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "AUDIO_ON_MIC";

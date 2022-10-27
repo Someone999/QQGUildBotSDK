@@ -1,4 +1,4 @@
-﻿namespace QqChannelRobotSdk.WebSocket.Packets.ClientPackets;
+﻿namespace QqGuildRobotSdk.WebSocket.Packets.ClientPackets;
 
 public struct Shard
 {
@@ -7,6 +7,7 @@ public struct Shard
         Current = current;
         Total = total;
     }
+    
     public int Current { get; set; }
     public int Total { get; set; }
 

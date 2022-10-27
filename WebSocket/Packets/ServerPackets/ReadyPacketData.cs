@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using QqChannelRobotSdk.JsonConverters;
-using QqChannelRobotSdk.WebSocket.Models;
-using QqChannelRobotSdk.WebSocket.Packets.ClientPackets;
+using QqGuildRobotSdk.JsonConverters;
+using QqGuildRobotSdk.WebSocket.Models;
+using QqGuildRobotSdk.WebSocket.Packets.ClientPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+namespace QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
 public class ReadyPacketData
 {
@@ -18,5 +18,5 @@ public class ReadyPacketData
     
     [JsonProperty("shard")]
     [JsonConverter(typeof(ShardJsonConverter))]
-    public Shard Shard { get; set; }= Shard.None;
+    public Shard Shard { get; set; } = Shard.None;
 }

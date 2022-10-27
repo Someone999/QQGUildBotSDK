@@ -1,9 +1,9 @@
-﻿using QqChannelRobotSdk.Models.Forums;
-using QqChannelRobotSdk.WebSocket.Events.EventArgs;
-using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers.Forum.Reply;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Forum.Reply;
 
 public class ReplyCreatePacketHandler : IPacketHandler
 {
@@ -16,7 +16,7 @@ public class ReplyCreatePacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.ForumEvents.ForumReplyEvents.OnForumReplyCreate?.Invoke(client, new ForumReplyEventArgs(packet, forumReply));
+        client.EventManager.ForumEvents.ForumReplyEvents.OnForumReplyCreate?.Invoke(client, new ForumReplyEventArgs(client, packet, forumReply));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "FORUM_REPLY_CREATE";

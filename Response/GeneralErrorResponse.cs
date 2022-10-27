@@ -1,12 +1,11 @@
 ﻿using System.Net;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace QqChannelRobotSdk.Response;
+namespace QqGuildRobotSdk.Response;
 
 public class GeneralErrorResponse
 {
-    public static GeneralErrorResponse Create(JObject responseJson, HttpResponseMessage responseMessage)
+    public static GeneralErrorResponse Create(JToken responseJson, HttpResponseMessage responseMessage)
     {
         int code = responseJson["code"]?.ToObject<int>() ?? 0;
         string message = responseJson["message"]?.ToObject<string>() ?? "null";

@@ -1,6 +1,6 @@
-﻿using QqChannelRobotSdk.WebSocket.Events.EventArgs;
+﻿using QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-namespace QqChannelRobotSdk.WebSocket.Events;
+namespace QqGuildRobotSdk.WebSocket.Events;
 
 public class GuildMessageEvents
 {

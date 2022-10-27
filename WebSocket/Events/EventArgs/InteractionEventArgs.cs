@@ -1,12 +1,10 @@
-﻿using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.Events.EventArgs;
+namespace QqGuildRobotSdk.WebSocket.Events.EventArgs;
 
-public class InteractionEventArgs
+public class InteractionEventArgs : EventArgBase
 {
-    public InteractionEventArgs(ServerPacketBase packetBase)
+    public InteractionEventArgs(QqGuildWebSocketClient client, ServerPacketBase packetBase) : base(client, packetBase)
     {
-        PacketBase = packetBase;
     }
-    public ServerPacketBase PacketBase { get; internal set; }
 }

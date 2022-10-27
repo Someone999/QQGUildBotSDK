@@ -1,7 +1,7 @@
-﻿using QqChannelRobotSdk.Authenticate;
-using QqChannelRobotSdk.WebSocket.Models;
+﻿using QqGuildRobotSdk.Authenticate;
+using QqGuildRobotSdk.WebSocket.Models;
 
-namespace QqChannelRobotSdk.WebSocket;
+namespace QqGuildRobotSdk.WebSocket;
 
 public class QqGuildWebSocketClientInfo
 {

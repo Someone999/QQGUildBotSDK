@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Models.Forums;
+namespace QqGuildRobotSdk.Models.Forums;
 
 public class ForumThreadInfo
 {

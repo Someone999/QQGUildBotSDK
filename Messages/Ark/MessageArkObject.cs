@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace QqChannelRobotSdk.Messages.Ark;
+namespace QqGuildRobotSdk.Messages.Ark;
 
 public class MessageArkObject
 {
     [JsonProperty("obj_kv")]
-    public MessageArkObjectKeyValuePair[] KeyValuePairs { get; set; } = Array.Empty<MessageArkObjectKeyValuePair>();
+    public List<MessageArkObjectKeyValuePair> KeyValuePairs { get; set; } = new List<MessageArkObjectKeyValuePair>();
 }

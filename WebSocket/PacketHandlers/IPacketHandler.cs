@@ -1,7 +1,7 @@
-﻿using QqChannelRobotSdk.WebSocket.Packets;
-using QqChannelRobotSdk.WebSocket.Packets.ServerPackets;
+﻿using QqGuildRobotSdk.WebSocket.Packets;
+using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
-namespace QqChannelRobotSdk.WebSocket.PacketHandlers;
+namespace QqGuildRobotSdk.WebSocket.PacketHandlers;
 
 
 public interface IPacketHandler
