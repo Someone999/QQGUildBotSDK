@@ -4,6 +4,9 @@ using QqGuildRobotSdk.Authenticate;
 using QqGuildRobotSdk.Roles;
 using QqGuildRobotSdk.Sdk;
 using QqGuildRobotSdk.WebSocket.Events;
+using QqGuildRobotSdk.WebSocket.EventSystem;
+using QqGuildRobotSdk.WebSocket.EventSystem.EventManagers;
+using QqGuildRobotSdk.WebSocket.EventSystem.Events;
 using QqGuildRobotSdk.WebSocket.PacketHandlers;
 using QqGuildRobotSdk.WebSocket.PacketHandlers.Server;
 using QqGuildRobotSdk.WebSocket.Packets;
@@ -17,64 +20,29 @@ namespace QqGuildRobotSdk.WebSocket;
 
 public class QqGuildWebSocketClient
 {
-    private static Dictionary<BotIdentifier, Dictionary<int, QqGuildWebSocketClient>> _createdClients =
-        new Dictionary<BotIdentifier, Dictionary<int, QqGuildWebSocketClient>>();
-
-    private static object Locker { get; } = new();
-    
-    /// <summary>
-    /// 创建或者用<see cref="BotIdentifier"/>从对象池获取一个Dictionary&lt;int, QqGuildWebSocketClient&gt;
-    /// </summary>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    public static Dictionary<int, QqGuildWebSocketClient> CreateClients(QqGuildWebSocketClientCreateParameters parameters)
-    {
-        lock (Locker)
-        {
-            if (_createdClients.ContainsKey(parameters.Identifier))
-            {
-                return _createdClients[parameters.Identifier];
-            }
-            
-            Dictionary<int, QqGuildWebSocketClient> clients = new Dictionary<int, QqGuildWebSocketClient>();
-            for (int currentShardCount = 0; currentShardCount < parameters.MaxShardCount; currentShardCount++)
-            {
-                QqGuildWebSocketClient currentClient = new QqGuildWebSocketClient(parameters.Identifier, parameters.WssUrl)
-                {
-                    ClientInfo =
-                    {
-                        CreateParameters = parameters,
-                        CurrentShard = currentShardCount
-                    }
-                };
-
-                if (parameters.AutoStart)
-                {
-                    currentClient.Start();
-                }
-                
-                clients.Add(currentShardCount, currentClient);
-            }
-            _createdClients.Add(parameters.Identifier, clients);
-            return clients;
-        }
-    }
-
-
     public IRoleConverter RoleConverter { get; set; } = new DefaultRoleConverter();
     public QqGuildWebSocketClientInfo ClientInfo { get; } 
     public PacketManager PacketManager { get; } = new PacketManager();
     public QqGuildBotSdk Sdk { get; }
-    public EventManager EventManager { get; } = new EventManager();
-    private QqGuildWebSocketClient(BotIdentifier identifier, string wssUrl)
+    public IEventManager<string> EventManager { get; } = new QqGuildSdkEventManager();
+    public QqGuildWebSocketClient(QqGuildWebSocketClientCreateParameters parameters)
     {
-        Identifier = identifier;
-        WebSocket = new WebSocket4Net.WebSocket(wssUrl);
-        Sdk = QqGuildBotSdk.GetSdk(identifier);
+        Identifier = parameters.Identifier;
+        WebSocket = new WebSocket4Net.WebSocket(parameters.WssUrl);
+        Sdk = QqGuildBotSdk.GetSdk(parameters.Identifier);
         ClientInfo = new QqGuildWebSocketClientInfo(Identifier);
+        ClientInfo.CreateParameters = parameters;
+        _heartbeatKeeper = new QqGuideBotWebSocketClientHeartbeatKeeper(this);
+        EventInitializer.InitializeEvent(EventManager);
+        UseSandboxEnvironment = parameters.UseSandboxEnvironment;
+        if (parameters.AutoStart)
+        {
+            Start();
+        }
     }
     internal readonly WebSocket4Net.WebSocket WebSocket;
-    private readonly Timer _heartbeatTimer = new Timer();
+
+    private readonly QqGuideBotWebSocketClientHeartbeatKeeper _heartbeatKeeper;
     public BotIdentifier Identifier { get; }
     private static readonly string FormalUrl = "https://api.sgroup.qq.com/";
     private static readonly string SandboxUrl = "https://sandbox.api.sgroup.qq.com/";
@@ -93,9 +61,9 @@ public class QqGuildWebSocketClient
         
         WebSocket.Open();
         WebSocket.MessageReceived += WebSocketOnMessageReceived;
-        WebSocket.Closed += WebSocketOnClosed;
-        WebSocket.Error += WebSocketOnError;
-        WebSocket.DataReceived += WebSocketOnDataReceived;
+        WebSocket.Closed += OnClosed;
+        WebSocket.Error += OnError;
+        WebSocket.DataReceived += OnDataReceived;
         _started = true;
     }
 
@@ -106,31 +74,17 @@ public class QqGuildWebSocketClient
             return;
         }
         WebSocket.MessageReceived -= WebSocketOnMessageReceived;
-        WebSocket.Closed -= WebSocketOnClosed;
-        WebSocket.Error -= WebSocketOnError;
-        WebSocket.DataReceived -= WebSocketOnDataReceived;
-        _heartbeatTimer.Stop();
+        WebSocket.Closed -= OnClosed;
+        WebSocket.Error -= OnError;
+        WebSocket.DataReceived -= OnDataReceived;
+        _heartbeatKeeper.StopSend();
         _started = false;
     }
+
+    public event EventHandler<DataReceivedEventArgs>? OnDataReceived; 
+    public event EventHandler<ErrorEventArgs>? OnError;
+    public event EventHandler? OnClosed; 
     
-    private void WebSocketOnDataReceived(object? sender, DataReceivedEventArgs e)
-    {
-        Console.WriteLine($"接收到数据: {Encoding.Default.GetString(e.Data)}");
-    }
-    
-    private void WebSocketOnClosed(object? sender, EventArgs e)
-    {
-        Console.WriteLine("连接意外断开");
-        OnStop();
-    }
-    private void WebSocketOnError(object? sender, ErrorEventArgs e)
-    {
-        Console.WriteLine($"遇到错误: {e.Exception.Message}");
-        if (WebSocket.State == WebSocketState.Closed)
-        {
-            OnStop();
-        }
-    }
 
     public void Stop()
     {
@@ -164,27 +118,24 @@ public class QqGuildWebSocketClient
         {
             if (PacketManager.ValidPacketOpCodes.Contains((int)basePacket.OperationCode))
             {
-                Console.WriteLine($"未处理的包: {basePacket.OperationCode} -> {basePacket.SubEventType}");
-                Console.WriteLine(json);
-                Console.WriteLine("------------------");
+                EventManager.GetEvent<GenericEvent<ServerPacketBase>>
+                    (QqGuildEventKeys.UnhandledPacket)?.Raise(basePacket);
             }
             else
             {
-                Console.WriteLine($"未知的包类型: {(int)basePacket.OperationCode} -> {basePacket.SubEventType}");
+                EventManager.GetEvent<GenericEvent<ServerPacketBase>>
+                    (QqGuildEventKeys.UndefinedPacket)?.Raise(basePacket);
             }
             return;
         }
         
         handler.Handle(this, basePacket);
-        if (handler is not HelloPacketHandler || _heartbeatTimer.Enabled)
+        if (handler is not HelloPacketHandler || _heartbeatKeeper.IsRunning)
         {
             return;
         }
-        _heartbeatTimer.Interval = basePacket.Data?["heartbeat_interval"]?.ToObject<int>() ?? 41250;
-        _heartbeatTimer.Elapsed += (_, _) => 
-            WebSocket.Send(JsonConvert.SerializeObject(new HeartbeatPacket(PacketManager.LastHasSequencePacket?.Sequence)));
-        _heartbeatTimer.Start();
-
+        _heartbeatKeeper.SendInterval = basePacket.Data?["heartbeat_interval"]?.ToObject<int>() ?? 41250;
+        _heartbeatKeeper.StartSend();
     }
 
 }

@@ -5,7 +5,7 @@ namespace QqGuildRobotSdk.Punishments;
 
 public class DefaultPunishResultHandler : IPunishResultHandler
 {
-    public void Handle(IPunishment? punishment, PunishmentExecutionFlags flags, MessageCreateEventArgs eventArgs)
+    public Task Handle(IPunishment? punishment, PunishmentExecutionFlags flags, MessageCreateEventArgs eventArgs)
     {
         User user = eventArgs.Message.Author;
         switch (flags)
@@ -23,5 +23,7 @@ public class DefaultPunishResultHandler : IPunishResultHandler
             default:
                 break;
         }
+        
+        return Task.CompletedTask;
     }
 }

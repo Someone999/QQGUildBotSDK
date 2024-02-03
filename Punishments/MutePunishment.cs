@@ -8,7 +8,7 @@ public class MutePunishment : IPunishment
     public int MaxViolationCount { get; set; } = 20;
     public int MinViolationCount { get; set; } = 0;
     public int Priority { get; set; } = 1;
-    public PunishmentExecutionFlags Punish(PunishmentParameters parameters)
+    public async Task<PunishmentExecutionFlags> PunishAsync(PunishmentParameters parameters)
     {
         if (!MathUtils.InRange(parameters.ViolationCount, MinViolationCount, MaxViolationCount))
         {
@@ -28,8 +28,7 @@ public class MutePunishment : IPunishment
             return PunishmentExecutionFlags.Unhandled;
         }
         
-        var rslt =
-            client.Sdk.MuteMemberAsync(guildId, userId, request).Result;
+        var rslt = await client.Sdk.MuteMemberAsync(guildId, userId, request);
         
         return rslt != null
             ? PunishmentExecutionFlags.Handled

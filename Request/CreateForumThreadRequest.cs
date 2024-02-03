@@ -14,12 +14,4 @@ namespace QqGuildRobotSdk.Request
         public ThreadFormat ThreadFormat { get; set; }
 
     }
-
-    public enum ThreadFormat
-    {
-        Text = 1,
-        Html,
-        Markdown,
-        Json
-    }
 }

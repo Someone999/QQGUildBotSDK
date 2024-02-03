@@ -4,10 +4,19 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>QqGuildRobotSdk</Title>
+        <Authors>Someone999</Authors>
+        <Description>A sdk of qq guild robot.</Description>
+        <RepositoryUrl>https://github.com/Someone999/QQGuildBotSDK</RepositoryUrl>
+        <PackageTags>QQGuild</PackageTags>
+        <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="HsManCommonLibrary" Version="1.1.10" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="WebSocket4Net" Version="0.15.2" />
     </ItemGroup>
 

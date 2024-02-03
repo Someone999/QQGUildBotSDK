@@ -60,7 +60,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Guild?, GeneralErrorResponse>> GetGuildInfoAsync(string guildId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId);
+        urlBuilder.AddPath("guilds").AddPath(guildId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var result = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<Guild?>(result);
@@ -71,7 +71,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Channel[]?, GeneralErrorResponse>> GetChannelsAsync(string guildId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("channels");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("channels");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
          var result = await httpClient.GetAsync(urlBuilder.Build());
          return await ResponseTools.GetReturnValueAsync<Channel[]>(result);
@@ -82,7 +82,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Channel?, GeneralErrorResponse>> GetChannelInfoAsync(string channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var result = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<Channel>(result);
@@ -93,7 +93,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Channel?, GeneralErrorResponse>> CreateChannelAsync(string guildId, CreateChannelRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("channels");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("channels");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         string requestJson = JsonConvert.SerializeObject(request);
         var result = await httpClient.PostAsync(urlBuilder.Build(), new StringContent(requestJson, null, "application/json"));
@@ -108,7 +108,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Channel?, GeneralErrorResponse>> ModifyChannelPropertyAsync(string channelId, ModifyChannelPropertyRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var result = await httpClient.PatchAsync(urlBuilder.Build(), jsonContent);
@@ -123,7 +123,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> DeleteChannelAsync(string channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
         var ret = await ResponseTools.GetReturnValueAsync(rslt);
@@ -135,7 +135,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Member[], GeneralErrorResponse>> GetMembersAsync(string guildId, string? after = null, int? limit = null)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("members");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("members");
         urlBuilder.AddArgumentWhenNotNull("after", after).AddArgumentWhenNotNull("limit", limit);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
@@ -157,7 +157,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<RoleMembersResponse?, GeneralErrorResponse>> GetRoleMembersAsync(string guildId, string roleId, int? startIndex = null, int? limit = null)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("roles").AddSubLevel(roleId.ToString()).AddSubLevel("members");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("roles").AddPath(roleId.ToString()).AddPath("members");
         urlBuilder.AddArgumentWhenNotNull("start_index", startIndex).AddArgumentWhenNotNull("limit", limit);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
@@ -172,7 +172,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Member?, GeneralErrorResponse>> GetMemberInfoAsync(string guildId, string userId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("members").AddSubLevel(userId.ToString());
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("members").AddPath(userId.ToString());
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<Member?>(rslt);
@@ -190,7 +190,7 @@ public class QqGuildBotSdk
             throw new ArgumentOutOfRangeException(nameof(discardMsgInDays), "值只能为-1,3,7,15,30,null");
         }
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("members").AddSubLevel(userId.ToString());
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("members").AddPath(userId.ToString());
         urlBuilder.AddArgumentWhenNotNull(nameof(addToBlackList), addToBlackList).AddArgumentWhenNotNull(nameof(discardMsgInDays), discardMsgInDays);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
@@ -205,7 +205,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<RolesResponse?, GeneralErrorResponse>> GetRolesAsync(string guildId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("roles");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("roles");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<RolesResponse?>(rslt);
@@ -216,7 +216,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<CreateRoleResponse?, GeneralErrorResponse>> CreateRoleAsync(string guildId, CreateRoleRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("roles");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("roles");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -231,7 +231,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<ModifyChannelPropertyRequest?, GeneralErrorResponse>> ModifyRolePropertyAsync(string guildId, ModifyRoleRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("roles");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("roles");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -246,9 +246,9 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> AddMemberToRoleAsync(string guildId, string userId, string roleId, string channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId);
-        urlBuilder.AddSubLevel("members").AddSubLevel(userId);
-        urlBuilder.AddSubLevel("roles").AddSubLevel(roleId);
+        urlBuilder.AddPath("guilds").AddPath(guildId);
+        urlBuilder.AddPath("members").AddPath(userId);
+        urlBuilder.AddPath("roles").AddPath(roleId);
         string data = $"{{\"channel\": {{\"id\":{channelId}}}}}";
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PutAsync(urlBuilder.Build(), new StringContent(data, null, "application/json"));
@@ -263,9 +263,9 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> RemoveMemberFromRoleAsync(string guildId, string userId, string roleId, string? channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId);
-        urlBuilder.AddSubLevel("members").AddSubLevel(userId);
-        urlBuilder.AddSubLevel("roles").AddSubLevel(roleId);
+        urlBuilder.AddPath("guilds").AddPath(guildId);
+        urlBuilder.AddPath("members").AddPath(userId);
+        urlBuilder.AddPath("roles").AddPath(roleId);
         urlBuilder.AddArgumentWhenNotNull("channel", channelId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Delete, urlBuilder.Build());
@@ -284,8 +284,8 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<ChannelPermissions?, GeneralErrorResponse>> GetUserChannelPermission(string channelId, string roleId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("members").AddSubLevel(roleId).AddSubLevel("permissions");
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("members").AddPath(roleId).AddPath("permissions");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<ChannelPermissions?>(rslt);
@@ -299,8 +299,8 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> ChangeUserChannelPermission(string channelId, string userId, ChangeChannelPermissionRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("members").AddSubLevel(userId).AddSubLevel("permissions");
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("members").AddPath(userId).AddPath("permissions");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var rslt = await httpClient.PutAsync(urlBuilder.Build(), jsonContent);
@@ -315,8 +315,8 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<ChannelPermissions?, GeneralErrorResponse>> GetRoleChannelPermission(string channelId, string roleId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("roles").AddSubLevel(roleId).AddSubLevel("permissions");
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("roles").AddPath(roleId).AddPath("permissions");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
          return await ResponseTools.GetReturnValueAsync<ChannelPermissions?>(rslt);
@@ -330,8 +330,8 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> ChangeRoleChannelPermission(string channelId, string roleId, ChangeChannelPermissionRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("roles").AddSubLevel(roleId).AddSubLevel("permissions");
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("roles").AddPath(roleId).AddPath("permissions");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var rslt = await httpClient.PutAsync(urlBuilder.Build(), jsonContent);
@@ -346,8 +346,8 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Message?, GeneralErrorResponse>> GetMessageAsync(string channelId, string messageId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("messages").AddSubLevel(messageId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("messages").AddPath(messageId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<Message?>(rslt);
@@ -361,7 +361,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Message?, GeneralErrorResponse>> SendMessageAsync(string channelId, SendMessageRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("messages");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("messages");
         var jsonString = JsonConvert.SerializeObject(request);
         var jsonContent = new StringContent(jsonString, null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
@@ -378,8 +378,8 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> DiscardMessageAsync(string channelId, string messageId, bool? hideTip = null)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("messages").AddSubLevel(messageId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("messages").AddPath(messageId);
         urlBuilder.AddArgumentWhenNotNull("hidetip", hideTip);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
@@ -394,7 +394,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Message?, GeneralErrorResponse>> SendArkMessageAsync(string channelId, MessageArk messageArk)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("messages");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("messages");
         var jsonContent = new StringContent(JsonConvert.SerializeObject(messageArk), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -409,7 +409,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Message?, GeneralErrorResponse>> SendMarkdownMessageAsync(string channelId, MessageMarkdown messageMarkdown)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("messages");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("messages");
         var jsonContent = new StringContent(JsonConvert.SerializeObject(messageMarkdown), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -429,7 +429,7 @@ public class QqGuildBotSdk
             throw new InvalidOperationException("消息发送请求中的Reference成员在引用消息时不能为null");
         }
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("messages");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("messages");
         var jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -444,7 +444,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<MessageSetting?, GeneralErrorResponse>> GetMessageSendSettingAsync(string guildId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("message").AddSubLevel("setting");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("message").AddPath("setting");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<MessageSetting>(rslt);
@@ -459,7 +459,7 @@ public class QqGuildBotSdk
         (CreateDirectMessageRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("@me").AddSubLevel("dms");
+        urlBuilder.AddPath("@me").AddPath("dms");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -470,7 +470,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Message?, GeneralErrorResponse>> SendDirectMessageAsync (string guildId, SendMessageRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("dms").AddSubLevel(guildId).AddSubLevel("messages");
+        urlBuilder.AddPath("dms").AddPath(guildId).AddPath("messages");
         var jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -485,8 +485,8 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> DiscardDirectMessageAsync(string guildId, string messageId, bool? hideTip = null)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("dms").AddSubLevel(guildId);
-        urlBuilder.AddSubLevel("messages").AddSubLevel(messageId);
+        urlBuilder.AddPath("dms").AddPath(guildId);
+        urlBuilder.AddPath("messages").AddPath(messageId);
         urlBuilder.AddArgumentWhenNotNull("hidetip", hideTip);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
@@ -501,7 +501,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> MuteAsync(string guildId, MuteRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("mute");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("mute");
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PatchAsync(urlBuilder.Build(), jsonContent);
@@ -513,8 +513,8 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> MuteMemberAsync(string guildId, string userId, MuteRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId);
-        urlBuilder.AddSubLevel("members").AddSubLevel(userId).AddSubLevel("mute");
+        urlBuilder.AddPath("guilds").AddPath(guildId);
+        urlBuilder.AddPath("members").AddPath(userId).AddPath("mute");
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PatchAsync(urlBuilder.Build(), jsonContent);
@@ -527,8 +527,8 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> MuteSpecifiedMemberAsync(string guildId, string userId, MuteSpecifiedMembersRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId);
-        urlBuilder.AddSubLevel("members").AddSubLevel(userId).AddSubLevel("mute");
+        urlBuilder.AddPath("guilds").AddPath(guildId);
+        urlBuilder.AddPath("members").AddPath(userId).AddPath("mute");
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PatchAsync(urlBuilder.Build(), jsonContent);
@@ -543,7 +543,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Announcement?, GeneralErrorResponse>> CreateAnnouncementAsync(string guildId, CreateAnnouncementRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("announces");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("announces");
 
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(request), null, "application/json");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
@@ -560,7 +560,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> RemoveAnnouncementAsync(string guildId, string messageId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("announces").AddSubLevel(messageId);
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("announces").AddPath(messageId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync(rslt);
@@ -574,7 +574,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<PinsMessage?, GeneralErrorResponse>> AddPinsMessageAsync(string channelId, string messageId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("pins").AddSubLevel(messageId);
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("pins").AddPath(messageId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PutAsync(urlBuilder.Build(), null);
         return await ResponseTools.GetReturnValueAsync<PinsMessage>(rslt);
@@ -588,7 +588,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> DeletePinsMessageAsync(string channelId, string messageId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("pins").AddSubLevel(messageId);
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("pins").AddPath(messageId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync(rslt);
@@ -602,7 +602,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<PinsMessage?, GeneralErrorResponse>> GetPinsMessageAsync(string channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("pins");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("pins");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<PinsMessage?>(rslt);
@@ -617,7 +617,7 @@ public class QqGuildBotSdk
     {
         //GET /channels/{channel_id}/schedules
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("schedules");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("schedules");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<Schedule[]>(rslt);
@@ -628,8 +628,8 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Schedule[]?, GeneralErrorResponse>> GetScheduleInfoAsync(string channelId, string scheduleId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("schedules").AddSubLevel(scheduleId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("schedules").AddPath(scheduleId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<Schedule[]>(rslt);
@@ -644,7 +644,7 @@ public class QqGuildBotSdk
     {
         //POST /channels/{channel_id}/schedules
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("schedules");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("schedules");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(schedule), null, "application/json");
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -660,7 +660,7 @@ public class QqGuildBotSdk
     {
         //POST /channels/{channel_id}/schedules
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("schedules");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("schedules");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(schedule), null, "application/json");
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -675,7 +675,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> DeleteScheduleAsync(string channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("schedules");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("schedules");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
        
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
@@ -691,9 +691,9 @@ public class QqGuildBotSdk
     {
         //PUT /channels/{channel_id}/messages/{message_id}/reactions/{type}/{id}
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("messages").AddSubLevel(messageId);
-        urlBuilder.AddSubLevel("reactions").AddSubLevel(((int)type).ToString()).AddSubLevel(emojiId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("messages").AddPath(messageId);
+        urlBuilder.AddPath("reactions").AddPath(((int)type).ToString()).AddPath(emojiId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
        
         var rslt = await httpClient.PutAsync(urlBuilder.Build(), null);
@@ -708,9 +708,9 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<Schedule[]?, GeneralErrorResponse>> DeleteMessageReactionAsync(string channelId, string messageId, EmojiType type, string emojiId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("messages").AddSubLevel(messageId);
-        urlBuilder.AddSubLevel("reactions").AddSubLevel(((int)type).ToString()).AddSubLevel(emojiId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("messages").AddPath(messageId);
+        urlBuilder.AddPath("reactions").AddPath(((int)type).ToString()).AddPath(emojiId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
        
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
@@ -726,9 +726,9 @@ public class QqGuildBotSdk
         GetMessageReactionsAsync(string channelId, string messageId, EmojiType type, string emojiId, string? cookie, int? limit)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId);
-        urlBuilder.AddSubLevel("messages").AddSubLevel(messageId);
-        urlBuilder.AddSubLevel("reactions").AddSubLevel(((int)type).ToString()).AddSubLevel(emojiId);
+        urlBuilder.AddPath("channels").AddPath(channelId);
+        urlBuilder.AddPath("messages").AddPath(messageId);
+        urlBuilder.AddPath("reactions").AddPath(((int)type).ToString()).AddPath(emojiId);
         urlBuilder.AddArgumentWhenNotNull("cookie", cookie);
         urlBuilder.AddArgumentWhenNotNull("limit", limit);
         
@@ -747,7 +747,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> ControlAudioAsync(string channelId, AudioControl audioControl)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("audio");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("audio");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         StringContent jsonContent = new StringContent(JsonConvert.SerializeObject(audioControl), null, "application/json");
         var rslt = await httpClient.PostAsync(urlBuilder.Build(), jsonContent);
@@ -760,7 +760,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> TurnOnMicAsync(string channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("mic");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("mic");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.PutAsync(urlBuilder.Build(), null);
         string responseText = await rslt.Content.ReadAsStringAsync();
@@ -772,7 +772,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> TurnOffMicAsync(string channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("mic");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("mic");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
         string responseText = await rslt.Content.ReadAsStringAsync();
@@ -784,7 +784,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<GetThreadsResponse?, GeneralErrorResponse>> GetThreadsAsync(string channelId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("threads");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("threads");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<GetThreadsResponse>(rslt);
@@ -796,7 +796,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<ForumThreadInfo?, GeneralErrorResponse>> GetThreadInfoAsync(string channelId, string threadId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("threads").AddSubLevel(threadId);
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("threads").AddPath(threadId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<ForumThreadInfo>(rslt);
@@ -809,7 +809,7 @@ public class QqGuildBotSdk
     public async Task<ApiResponse<CreateThreadResponse?, GeneralErrorResponse>> CreateForumThreadAsync(string channelId, CreateForumThreadRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("threads");
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("threads");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         string content = JsonConvert.SerializeObject(request);
         StringContent sendContent = new StringContent(content, null, "application/json");
@@ -823,7 +823,7 @@ public class QqGuildBotSdk
     public async Task<GeneralErrorResponse?> DeleteThreadInfoAsync(string channelId, string threadId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("channels").AddSubLevel(channelId).AddSubLevel("threads").AddSubLevel(threadId);
+        urlBuilder.AddPath("channels").AddPath(channelId).AddPath("threads").AddPath(threadId);
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.DeleteAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync(rslt);
@@ -836,7 +836,7 @@ public class QqGuildBotSdk
         string guildId)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("api_permission");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("api_permission");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         var rslt = await httpClient.GetAsync(urlBuilder.Build());
         return await ResponseTools.GetReturnValueAsync<GetApiPermissionsResponse>(rslt);
@@ -849,7 +849,7 @@ public class QqGuildBotSdk
         (string guildId, CreateApiAuthenticateRequestLinkRequest request)
     {
         UrlBuilder urlBuilder = new UrlBuilder(GetBaseUrl());
-        urlBuilder.AddSubLevel("guilds").AddSubLevel(guildId).AddSubLevel("api_permission").AddSubLevel("demand");
+        urlBuilder.AddPath("guilds").AddPath(guildId).AddPath("api_permission").AddPath("demand");
         var httpClient = BotIdentifier.GetBotTokenAuthenticateHttpClient();
         string content = JsonConvert.SerializeObject(request);
         StringContent sendContent = new StringContent(content, null, "application/json");

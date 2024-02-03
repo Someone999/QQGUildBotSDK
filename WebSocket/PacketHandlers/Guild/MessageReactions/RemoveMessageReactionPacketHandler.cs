@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Messages.MessageReaction;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -15,10 +17,10 @@ public class RemoveMessageReactionPacketHandler : IPacketHandler
             return;
         }
 
-        client.EventManager
-            .GuildMessageReactionEvents
-            .OnRemoveMessageReaction?
-            .Invoke(client, new MessageReactionEventArgs(client, packet, messageReaction));
+        var eventData = messageReaction;
+        const string eventName = QqGuildEventKeys.GuildMessageReactionRemove;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<MessageReactionEventArgs>>(eventName);
+        e?.Raise(new MessageReactionEventArgs(client, packet, eventData));
     }
 
     public OperationCode Code => OperationCode.Dispatch;

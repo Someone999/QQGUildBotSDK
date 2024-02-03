@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Models.Messages;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -15,7 +17,10 @@ namespace QqGuildRobotSdk.WebSocket.PacketHandlers.MessageAudits
                 return;
             }
             
-            client.EventManager.MessageAuditEvents.OnMessageAuditPassed?.Invoke(client, new MessageAuditEventArgs(client, packet, msg));
+            var eventData = msg;
+            const string eventName = QqGuildEventKeys.MessageAuditPassed;
+            var e = client.EventManager.GetEvent<QqGuildSdkEvent<MessageAuditEventArgs>>(eventName);
+            e?.Raise(new MessageAuditEventArgs(client, packet, eventData));
         }
 
         public OperationCode Code => OperationCode.Dispatch;

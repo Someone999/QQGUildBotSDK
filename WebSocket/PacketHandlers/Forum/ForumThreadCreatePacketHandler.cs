@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -15,7 +17,10 @@ namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Forum
                 return;
             }
         
-            client.EventManager.ForumEvents.ForumThreadEvents.OnForumThreadCreate?.Invoke(client, new ForumThreadEventArgs(client, packet, forumThread));
+            var eventData = forumThread;
+            const string eventName = QqGuildEventKeys.ForumThreadCreate;
+            var e = client.EventManager.GetEvent<QqGuildSdkEvent<ForumThreadEventArgs>>(eventName);
+            e?.Raise(new ForumThreadEventArgs(client, packet, eventData));
         }
 
         public OperationCode Code => OperationCode.Dispatch;

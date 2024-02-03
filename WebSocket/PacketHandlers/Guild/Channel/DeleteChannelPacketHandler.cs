@@ -1,4 +1,6 @@
-﻿using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+﻿using QqGuildRobotSdk.WebSocket.Events;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Models;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
@@ -16,7 +18,10 @@ public class DeleteChannelPacketHandler : IPacketHandler
             return;
         }
 
-        client.EventManager.GuildEvents.OnChannelDelete?.Invoke(client, new ChannelEventArgs(client, packet, channel));
+        var eventData = channel;
+        const string eventName = QqGuildEventKeys.GuildChannelDelete;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<ChannelEventArgs>>(eventName);
+        e?.Raise(new ChannelEventArgs(client, packet, eventData));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string SubEventType => "CHANNEL_DELETE";

@@ -12,7 +12,7 @@ public class QqGuildWebSocketClientInfo
     }
     public int Version { get; internal set; }
     public string SessionId { get; internal set; } = "";
-    public int CurrentShard { get; internal set; }
+    public int CurrentShard { get; internal set; } 
     public WebSocketUser CurrentUser { get; internal set; } = WebSocketUser.Empty;
     public BotIdentifier Identifier { get; internal set; } 
     

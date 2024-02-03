@@ -6,5 +6,5 @@ public interface IPunishment
     int MinViolationCount { get; set; }
     
     int Priority { get; set; }
-    PunishmentExecutionFlags Punish(PunishmentParameters parameters);
+    Task<PunishmentExecutionFlags> PunishAsync(PunishmentParameters parameters);
 }

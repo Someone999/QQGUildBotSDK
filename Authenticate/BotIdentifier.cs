@@ -5,15 +5,15 @@ namespace QqGuildRobotSdk.Authenticate;
 public class BotIdentifier : IEqualityComparer<BotIdentifier>
 {
     [JsonProperty("bot_app_id")]
-    public string BotAppId { get; set; } = "";
+    public string BotAppId { get; set; }
     
     [JsonProperty("bot_secret")]
-    public string BotSecretKey { get; set; } = "";
+    public string BotSecretKey { get; set; }
     
     [JsonProperty("bot_token")]
-    public string BotToken { get; set; } = "";
+    public string BotToken { get; set; }
 
-    static readonly HttpClient BotTokenAuthenticateHttpClient = new HttpClient();
+    private readonly HttpClient _botTokenAuthenticateHttpClient = new HttpClient();
     public BotIdentifier(string botAppId, string botSecretKey, string botToken)
     {
         BotAppId = botAppId;
@@ -21,12 +21,12 @@ public class BotIdentifier : IEqualityComparer<BotIdentifier>
         BotToken = botToken;
         string concatToken = "Bot " + BotAppId + "." + BotToken;
         BotAuthToken = concatToken;
-        BotTokenAuthenticateHttpClient.DefaultRequestHeaders.Add("Authorization", concatToken);
+        _botTokenAuthenticateHttpClient.DefaultRequestHeaders.Add("Authorization", concatToken);
     }
 
     public HttpClient GetBotTokenAuthenticateHttpClient()
     {
-        return BotTokenAuthenticateHttpClient;
+        return _botTokenAuthenticateHttpClient;
     }
     
     public bool Equals(BotIdentifier? x, BotIdentifier? y)

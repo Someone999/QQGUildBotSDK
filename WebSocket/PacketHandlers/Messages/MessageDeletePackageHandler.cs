@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -17,7 +19,10 @@ public class MessageDeletePackageHandler : IPacketHandler
         }
 
        
-        client.EventManager.GuildMessageEvents.OnMessageDelete?.Invoke(client, new MessageDeleteEventArgs(client, packet, msgDelete));
+        var eventData = msgDelete;
+        const string eventName = QqGuildEventKeys.MessageDelete;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<MessageDeleteEventArgs>>(eventName);
+        e?.Raise(new MessageDeleteEventArgs(client, packet, eventData));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string SubEventType => "MESSAGE_DELETE";

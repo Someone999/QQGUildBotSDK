@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -16,7 +18,10 @@ public class PostDeletePacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.ForumEvents.ForumPostEvents.OnForumPostCreate?.Invoke(client, new ForumPostEventArgs(client, packet, forumThread));
+        var eventData = forumThread;
+        const string eventName = QqGuildEventKeys.ForumPostDelete;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<ForumPostEventArgs>>(eventName);
+        e?.Raise(new ForumPostEventArgs(client, packet, eventData));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "FORUM_POST_DELETE";

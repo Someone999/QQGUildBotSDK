@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Messages;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -15,7 +17,10 @@ public class MessageCreatePacketHandler : IPacketHandler
             return;
         }
 
-        client.EventManager.GuildMessageEvents.OnMessageCreate?.Invoke(client, new MessageCreateEventArgs(client, packet, msg));
+        var eventData = msg;
+        const string eventName = QqGuildEventKeys.MessageCreate;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<MessageCreateEventArgs>>(eventName);
+        e?.Raise(new MessageCreateEventArgs(client, packet, eventData));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string SubEventType => "MESSAGE_CREATE";

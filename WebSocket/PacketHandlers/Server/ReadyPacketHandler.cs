@@ -1,4 +1,7 @@
-﻿using QqGuildRobotSdk.WebSocket.Packets;
+﻿using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
+using QqGuildRobotSdk.WebSocket.EventSystem.Events;
+using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
 namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Server;
@@ -10,7 +13,7 @@ public class ReadyPacketHandler : IPacketHandler
         var additionData = packet.Data?.ToObject<ReadyPacketData>();
         if (additionData == null)
         {
-            Console.WriteLine("建立连接时出现错误");
+            client.EventManager.GetEvent<GenericEvent<PacketReceivedEventArgs>>(QqGuildEventKeys.WebSocketFailed);
             return;
         }
         
@@ -18,7 +21,7 @@ public class ReadyPacketHandler : IPacketHandler
         client.ClientInfo.CurrentUser = additionData.User;
         client.ClientInfo.Version = additionData.Version;
         
-        Console.WriteLine($"WebSocket{additionData.Shard.Current}已经准备就绪");
+        client.EventManager.GetEvent<GenericEvent<ReadyPacketData>>(QqGuildEventKeys.WebSocketReadied);
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string SubEventType => "READY";

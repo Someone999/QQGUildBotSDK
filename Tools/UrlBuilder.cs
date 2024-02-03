@@ -18,7 +18,7 @@ public class UrlBuilder
         }
     }
 
-    public UrlBuilder AddSubLevel(string subLevel)
+    public UrlBuilder AddPath(string subLevel)
     {
         if (subLevel.StartsWith("/"))
         {

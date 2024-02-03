@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -17,7 +19,10 @@ public class ForumPublishAuditResultPacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.ForumEvents.OnForumPublishAudit?.Invoke(client, new ForumPublishAuditResultArgs(client, packet, forumThread));
+        var eventData = forumThread;
+        const string eventName = QqGuildEventKeys.ForumPublishAuditResult;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<ForumPublishAuditResultArgs>>(eventName);
+        e?.Raise(new ForumPublishAuditResultArgs(client, packet, eventData));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "FORUM_PUBLISH_AUDIT_RESULT";

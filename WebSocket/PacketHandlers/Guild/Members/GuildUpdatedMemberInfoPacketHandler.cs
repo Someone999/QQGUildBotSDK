@@ -1,4 +1,6 @@
-﻿using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+﻿using QqGuildRobotSdk.WebSocket.Events;
+using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Models;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
@@ -15,7 +17,10 @@ public class GuildUpdatedMemberInfoPacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.GuildMemberEvents.OnUpdateMemberInfo?.Invoke(client, new GuildMemberEventArgs(client, packet, member));
+        var eventData = member;
+        const string eventName = QqGuildEventKeys.GuildMemberInfoUpdated;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<GuildMemberEventArgs>>(eventName);
+        e?.Raise(new GuildMemberEventArgs(client, packet, eventData));
     }
 
     public OperationCode Code => OperationCode.Dispatch;

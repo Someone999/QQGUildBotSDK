@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Models.Forums;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -7,7 +9,6 @@ namespace QqGuildRobotSdk.WebSocket.PacketHandlers.Forum.Post;
 
 public class PostCreatePacketHandler : IPacketHandler
 {
-
     public void Handle(QqGuildWebSocketClient client, ServerPacketBase packet)
     {
         ForumPost? forumThread = packet.Data?.ToObject<ForumPost>();
@@ -15,11 +16,13 @@ public class PostCreatePacketHandler : IPacketHandler
         {
             return;
         }
-        
-        client.EventManager.ForumEvents.ForumPostEvents.OnForumPostCreate?.Invoke(client, new ForumPostEventArgs(client, packet, forumThread));
+
+        var eventData = forumThread;
+        const string eventName = QqGuildEventKeys.ForumPostCreate;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<ForumPostEventArgs>>(eventName);
+        e?.Raise(new ForumPostEventArgs(client, packet, eventData));
     }
+
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "FORUM_POST_CREATE";
 }
-
-

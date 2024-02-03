@@ -8,7 +8,8 @@ public static class PacketHandlerManager
 {
     private static bool _initialized;
     private static Dictionary<(OperationCode, string?), IPacketHandler> _packetHandlers = new();
-    static void Init()
+
+    private static void Init()
     {
         if (!ReflectionAssemblyManager.RegisteredAssemblies.Contains(typeof(PacketManager).Assembly))
         {

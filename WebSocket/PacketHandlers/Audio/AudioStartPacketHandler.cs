@@ -1,5 +1,7 @@
 ﻿using QqGuildRobotSdk.Audio;
+using QqGuildRobotSdk.WebSocket.Events;
 using QqGuildRobotSdk.WebSocket.Events.EventArgs;
+using QqGuildRobotSdk.WebSocket.EventSystem;
 using QqGuildRobotSdk.WebSocket.Packets;
 using QqGuildRobotSdk.WebSocket.Packets.ServerPackets;
 
@@ -15,7 +17,10 @@ public class AudioStartPacketHandler : IPacketHandler
             return;
         }
         
-        client.EventManager.AudioEvents.OnAudioStart?.Invoke(client, new AudioEventArgs(client, packet, audioAction));
+        var eventData = audioAction;
+        const string eventName = QqGuildEventKeys.AudioStartEvent;
+        var e = client.EventManager.GetEvent<QqGuildSdkEvent<AudioEventArgs>>(eventName);
+        e?.Raise(new AudioEventArgs(client, packet, eventData));
     }
     public OperationCode Code => OperationCode.Dispatch;
     public string? SubEventType => "AUDIO_START";

@@ -13,7 +13,7 @@ public class UserPunishmentManager
     
     public Dictionary<User, UserPunishmentInfo> UserPunishments { get; } = new();
 
-    public PunishmentExecutionFlags Punish(PunishmentParameters parameters)
+    public async Task<PunishmentExecutionFlags> PunishAsync(PunishmentParameters parameters)
     {
         var user = parameters.EventArgs.Message.Author;
         UserPunishmentInfo? punishmentInfo;
@@ -28,20 +28,20 @@ public class UserPunishmentManager
 
         if (parameters.Punishment == null)
         {
-            return AutoPunish(parameters);
+            return await AutoPunish(parameters);
         }
 
         int violationCount = punishmentInfo.AppliedPunishment.Count;
         parameters.ViolationCount = parameters.ViolationCount == -1
             ? violationCount
             : parameters.ViolationCount;
-        var rslt = punishmentInfo.ApplyPunishment(parameters);
-        PunishResultHandler.Handle(parameters.Punishment, rslt, parameters.EventArgs);
+        var rslt = await punishmentInfo.ApplyPunishmentAsync(parameters);
+        await PunishResultHandler.Handle(parameters.Punishment, rslt, parameters.EventArgs);
         return rslt;
     }
     
     
-    public PunishmentExecutionFlags Punish<T>(PunishmentParameters parameters) where T: IPunishment
+    public async Task<PunishmentExecutionFlags> PunishAsync<T>(PunishmentParameters parameters) where T: IPunishment
     {
         var user = parameters.EventArgs.Message.Author;
         UserPunishmentInfo? punishmentInfo;
@@ -61,12 +61,12 @@ public class UserPunishmentManager
         
         parameters.ViolationCount = parameters.ViolationCount == -1 ? punishmentInfo.AppliedPunishment.Count : parameters.ViolationCount;
         parameters.Punishment = punishment;
-        var rslt = punishmentInfo.ApplyPunishment(parameters);
-        PunishResultHandler.Handle(punishment, rslt, parameters.EventArgs);
+        var rslt = await punishmentInfo.ApplyPunishmentAsync(parameters);
+        await PunishResultHandler.Handle(punishment, rslt, parameters.EventArgs);
         return rslt;
     }
 
-    PunishmentExecutionFlags AutoPunish(PunishmentParameters parameters)
+    private async Task<PunishmentExecutionFlags> AutoPunish(PunishmentParameters parameters)
     {
         var user = parameters.EventArgs.Message.Author;
         UserPunishmentInfo? punishmentInfo;
@@ -87,13 +87,13 @@ public class UserPunishmentManager
             orderby p.Priority descending select p;
 
         IPunishment? punishment = punishments.FirstOrDefault();
-        var rslt = punishment?.Punish(parameters) ?? PunishmentExecutionFlags.NoHandler;
         if (punishment == null)
         {
             return PunishmentExecutionFlags.NoHandler;
         }
+        var rslt = await punishment.PunishAsync(parameters);
         
-        PunishResultHandler.Handle(punishment, rslt, parameters.EventArgs);
+        await PunishResultHandler.Handle(punishment, rslt, parameters.EventArgs);
         return rslt;
     }
 

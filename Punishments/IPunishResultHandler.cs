@@ -4,5 +4,5 @@ namespace QqGuildRobotSdk.Punishments;
 
 public interface IPunishResultHandler
 {
-    void Handle(IPunishment? punishment, PunishmentExecutionFlags flags, MessageCreateEventArgs eventArgs);
+    Task Handle(IPunishment? punishment, PunishmentExecutionFlags flags, MessageCreateEventArgs eventArgs);
 }
